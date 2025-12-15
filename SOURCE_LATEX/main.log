@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.1)  15 DEC 2025 23:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.1)  15 DEC 2025 23:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1825,12 +1825,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [24]
-Overfull \hbox (94.92244pt too wide) in paragraph at lines 833--835
-\T5/cmr/m/n/12 dio: [][]$\T5/cmtt/m/n/12 https : / / lookerstudio . google . com / u / 0 / reporting / e14956d8-[]ab2a-[]4b88-[]8f59-[]5b426b960cc5 /
- []
-
-
-Overfull \hbox (13.0935pt too wide) in paragraph at lines 840--841
+Overfull \hbox (13.0935pt too wide) in paragraph at lines 841--842
 []\T5/cmr/bx/n/12 HAEMOGLOBINS \T5/cmr/m/n/12 t˜Ïng ^^_Ëi Ín ^^_‡nh, dao ^^_Îng quanh m˘c trung bºnh \T5/cmr/bx/n/12 56.216,5\T5/cmr/m/n/12 . 
  []
 
@@ -1844,10 +1839,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [25 <./images/dashboard_looker.png>]
 File: images/decision_tree_view.PNG Graphic file (type png)
 <use images/decision_tree_view.PNG>
-Package pdftex.def Info: images/decision_tree_view.PNG  used on input line 863.
+Package pdftex.def Info: images/decision_tree_view.PNG  used on input line 864.
 (pdftex.def)             Requested size: 441.01773pt x 293.01703pt.
 LaTeX Font Info:    Font shape `T5/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T5/cmtt/m/n' tried instead on input line 874.
+(Font)              Font shape `T5/cmtt/m/n' tried instead on input line 875.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1857,29 +1852,29 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [26]
-Underfull \hbox (badness 10000) in paragraph at lines 911--911
+Underfull \hbox (badness 10000) in paragraph at lines 912--912
 []|\T5/cmr/m/n/12 N∏u (\T5/cmr/bx/n/12 THROMBOCYTE $\OMS/cmsy/m/n/12 ^^T$ \T5/cmr/m/n/12 456.5) VÄ
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 911--911
+Underfull \hbox (badness 10000) in paragraph at lines 912--912
 []|\T5/cmr/m/n/12 N∏u (\T5/cmr/bx/n/12 THROMBOCYTE $\OML/cmm/m/it/12 >$ \T5/cmr/m/n/12 456.5) VÄ
  []
 
-<images/mat_do_tuoi.jpg, id=527, 542.62724pt x 359.54324pt>
+<images/mat_do_tuoi.jpg, id=526, 542.62724pt x 359.54324pt>
 File: images/mat_do_tuoi.jpg Graphic file (type jpg)
 <use images/mat_do_tuoi.jpg>
-Package pdftex.def Info: images/mat_do_tuoi.jpg  used on input line 918.
+Package pdftex.def Info: images/mat_do_tuoi.jpg  used on input line 919.
 (pdftex.def)             Requested size: 396.91325pt x 262.99106pt.
-<images/phanbo_tuoi_benh_nhan.jpg, id=528, 682.04813pt x 453.19313pt>
+<images/phanbo_tuoi_benh_nhan.jpg, id=527, 682.04813pt x 453.19313pt>
 File: images/phanbo_tuoi_benh_nhan.jpg Graphic file (type jpg)
 <use images/phanbo_tuoi_benh_nhan.jpg>
-Package pdftex.def Info: images/phanbo_tuoi_benh_nhan.jpg  used on input line 924.
+Package pdftex.def Info: images/phanbo_tuoi_benh_nhan.jpg  used on input line 925.
 (pdftex.def)             Requested size: 396.91325pt x 263.73734pt.
-<images/phanbo_tuoi_theo_nhom.jpg, id=529, 534.19576pt x 368.577pt>
+<images/phanbo_tuoi_theo_nhom.jpg, id=528, 534.19576pt x 368.577pt>
 File: images/phanbo_tuoi_theo_nhom.jpg Graphic file (type jpg)
 <use images/phanbo_tuoi_theo_nhom.jpg>
-Package pdftex.def Info: images/phanbo_tuoi_theo_nhom.jpg  used on input line 930.
+Package pdftex.def Info: images/phanbo_tuoi_theo_nhom.jpg  used on input line 931.
 (pdftex.def)             Requested size: 396.91325pt x 273.85625pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1905,10 +1900,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [29 <./images/phanbo_tuoi_theo_nhom.jpg>]
-<images/bieudo_quanhe_cacbienso.png, id=548, 330.1425pt x 330.7995pt>
+<images/bieudo_quanhe_cacbienso.png, id=547, 330.1425pt x 330.7995pt>
 File: images/bieudo_quanhe_cacbienso.png Graphic file (type png)
 <use images/bieudo_quanhe_cacbienso.png>
-Package pdftex.def Info: images/bieudo_quanhe_cacbienso.png  used on input line 1019.
+Package pdftex.def Info: images/bieudo_quanhe_cacbienso.png  used on input line 1020.
 (pdftex.def)             Requested size: 441.01773pt x 441.91628pt.
 
 
@@ -1927,15 +1922,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [31 <./images/bieudo_quanhe_cacbienso.png>]
-<images/boxplot_charges.png, id=561, 1076.823pt x 281.853pt>
+<images/boxplot_charges.png, id=560, 1076.823pt x 281.853pt>
 File: images/boxplot_charges.png Graphic file (type png)
 <use images/boxplot_charges.png>
-Package pdftex.def Info: images/boxplot_charges.png  used on input line 1037.
+Package pdftex.def Info: images/boxplot_charges.png  used on input line 1038.
 (pdftex.def)             Requested size: 441.01773pt x 115.43146pt.
-<images/csv_reader.png, id=562, 327.02174pt x 165.61874pt>
+<images/csv_reader.png, id=561, 327.02174pt x 165.61874pt>
 File: images/csv_reader.png Graphic file (type png)
 <use images/csv_reader.png>
-Package pdftex.def Info: images/csv_reader.png  used on input line 1066.
+Package pdftex.def Info: images/csv_reader.png  used on input line 1067.
 (pdftex.def)             Requested size: 441.01773pt x 223.36336pt.
 
 
@@ -1946,10 +1941,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [32 <./images/boxplot_charges.png>]
-<images/workflow_step3_onehot.png, id=569, 511.9125pt x 164.41425pt>
+<images/workflow_step3_onehot.png, id=568, 511.9125pt x 164.41425pt>
 File: images/workflow_step3_onehot.png Graphic file (type png)
 <use images/workflow_step3_onehot.png>
-Package pdftex.def Info: images/workflow_step3_onehot.png  used on input line 1089.
+Package pdftex.def Info: images/workflow_step3_onehot.png  used on input line 1090.
 (pdftex.def)             Requested size: 441.01773pt x 141.64436pt.
 
 
@@ -1960,10 +1955,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [33 <./images/csv_reader.png>]
-<images/workflow_step5_normalizer_train.png, id=577, 391.4625pt x 166.221pt>
+<images/workflow_step5_normalizer_train.png, id=576, 391.4625pt x 166.221pt>
 File: images/workflow_step5_normalizer_train.png Graphic file (type png)
 <use images/workflow_step5_normalizer_train.png>
-Package pdftex.def Info: images/workflow_step5_normalizer_train.png  used on input line 1114.
+Package pdftex.def Info: images/workflow_step5_normalizer_train.png  used on input line 1115.
 (pdftex.def)             Requested size: 441.01773pt x 187.27205pt.
 
 
@@ -1974,15 +1969,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [34 <./images/workflow_step3_onehot.png>]
-<images/workflow_step6_normalizer_apply.png, id=586, 386.04225pt x 166.82326pt>
+<images/workflow_step6_normalizer_apply.png, id=585, 386.04225pt x 166.82326pt>
 File: images/workflow_step6_normalizer_apply.png Graphic file (type png)
 <use images/workflow_step6_normalizer_apply.png>
-Package pdftex.def Info: images/workflow_step6_normalizer_apply.png  used on input line 1129.
+Package pdftex.def Info: images/workflow_step6_normalizer_apply.png  used on input line 1130.
 (pdftex.def)             Requested size: 441.01773pt x 190.58267pt.
-<images/workflow_step7_lr_learner.png, id=587, 512.51476pt x 169.8345pt>
+<images/workflow_step7_lr_learner.png, id=586, 512.51476pt x 169.8345pt>
 File: images/workflow_step7_lr_learner.png Graphic file (type png)
 <use images/workflow_step7_lr_learner.png>
-Package pdftex.def Info: images/workflow_step7_lr_learner.png  used on input line 1143.
+Package pdftex.def Info: images/workflow_step7_lr_learner.png  used on input line 1144.
 (pdftex.def)             Requested size: 441.01773pt x 146.14551pt.
 
 
@@ -1993,15 +1988,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [35 <./images/workflow_step5_normalizer_train.png> <./images/workflow_step6_normalizer_apply.png>]
-<images/workflow_step8_predictor.png, id=596, 793.16325pt x 265.59225pt>
+<images/workflow_step8_predictor.png, id=595, 793.16325pt x 265.59225pt>
 File: images/workflow_step8_predictor.png Graphic file (type png)
 <use images/workflow_step8_predictor.png>
-Package pdftex.def Info: images/workflow_step8_predictor.png  used on input line 1157.
+Package pdftex.def Info: images/workflow_step8_predictor.png  used on input line 1158.
 (pdftex.def)             Requested size: 441.01773pt x 147.6729pt.
-<images/workflow_step9_numeric_scorer.png, id=597, 236.68425pt x 196.93575pt>
+<images/workflow_step9_numeric_scorer.png, id=596, 236.68425pt x 196.93575pt>
 File: images/workflow_step9_numeric_scorer.png Graphic file (type png)
 <use images/workflow_step9_numeric_scorer.png>
-Package pdftex.def Info: images/workflow_step9_numeric_scorer.png  used on input line 1170.
+Package pdftex.def Info: images/workflow_step9_numeric_scorer.png  used on input line 1171.
 (pdftex.def)             Requested size: 441.01773pt x 366.99382pt.
 
 
@@ -2012,10 +2007,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
 
 [36 <./images/workflow_step7_lr_learner.png> <./images/workflow_step8_predictor.png>]
-<images/predicted_vs_actual.png, id=606, 708.84825pt x 220.4235pt>
+<images/predicted_vs_actual.png, id=605, 708.84825pt x 220.4235pt>
 File: images/predicted_vs_actual.png Graphic file (type png)
 <use images/predicted_vs_actual.png>
-Package pdftex.def Info: images/predicted_vs_actual.png  used on input line 1190.
+Package pdftex.def Info: images/predicted_vs_actual.png  used on input line 1191.
 (pdftex.def)             Requested size: 441.01773pt x 137.13875pt.
 
 
@@ -2036,13 +2031,159 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [38 <./images/predicted_vs_actual.png>]
 Ch\uhorn \ohorn ng 3.
 
-Overfull \hbox (33.196pt too wide) in paragraph at lines 1199--1199
+Overfull \hbox (33.196pt too wide) in paragraph at lines 1200--1200
 |\T5/cmr/m/sc/24.88 KòT LUäN VÄ H◊ŒNG PHÅT TRIöN| 
  []
 
-)
+[39
+
+])
 
 LaTeX Warning: Empty bibliography on input line 211.
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 17.97173pt, for example:
+(fancyhdr)                \setlength{\headheight}{17.97173pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-5.97173pt}.
+
+[40]
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:217: Undefined control sequence.
+<argument> \@listctr 
+                     
+l.217 \bibitem{Hong2018}
+                        
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:217: You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.217 \bibitem{Hong2018}
+                        
+I'm forgetting what you said and using zero instead.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:221: Undefined control sequence.
+<argument> \@listctr 
+                     
+l.221 \bibitem{Berthold2009}
+                            
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:221: You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.221 \bibitem{Berthold2009}
+                            
+I'm forgetting what you said and using zero instead.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:225: Undefined control sequence.
+<argument> \@listctr 
+                     
+l.225 \bibitem{Breiman1984}
+                           
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:225: You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.225 \bibitem{Breiman1984}
+                           
+I'm forgetting what you said and using zero instead.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:229: Undefined control sequence.
+<argument> \@listctr 
+                     
+l.229 \bibitem{Liang2019}
+                         
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:229: You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.229 \bibitem{Liang2019}
+                         
+I'm forgetting what you said and using zero instead.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:233: Undefined control sequence.
+<argument> \@listctr 
+                     
+l.233 \bibitem{Jain2010}
+                        
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:233: You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.233 \bibitem{Jain2010}
+                        
+I'm forgetting what you said and using zero instead.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:237: Undefined control sequence.
+<argument> \@listctr 
+                     
+l.237 \bibitem{KaggleData}
+                          
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:237: You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.237 \bibitem{KaggleData}
+                          
+I'm forgetting what you said and using zero instead.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 238--239
+[]\T5/cmr/m/n/12 H. A. Pu-tra, ``Pa-tient Treat-ment Clas-si-fi-ca-tion Dataset,'' Kag-gle. [On-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 238--239
+\T5/cmr/m/n/12 line]. Avail-able: [][]$\T5/cmtt/m/n/12 https : / / www . kaggle . com / datasets / saurabh0909 /
+ []
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:241: Undefined control sequence.
+<argument> \@listctr 
+                     
+l.241 \bibitem{Kuhn2013}
+                        
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex:241: You can't use `\relax' after \the.
+<recently read> \c@ 
+                    
+l.241 \bibitem{Kuhn2013}
+                        
+I'm forgetting what you said and using zero instead.
 
 Package minitoc Info: I0009
 (minitoc)             Listing minitoc auxiliary files. 
@@ -2062,7 +2203,7 @@ Package minitoc(hints) Warning: W0024
 \tf@ptc=\write10
 \openout10 = `main.ptc'.
 
-[39
+[41
 
 ] (main.aux)
  ***********
@@ -2080,17 +2221,17 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 42829 strings out of 474485
- 841889 string characters out of 5743734
+ 42846 strings out of 474485
+ 842098 string characters out of 5743734
  1944542 words of memory out of 5000000
- 64311 multiletter control sequences out of 15000+600000
+ 64321 multiletter control sequences out of 15000+600000
  588675 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,87p,2527b,2277s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\tranv\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcbx1200.pk> <C:\Users\tranv\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx12.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbxti10.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vncsc10.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr12.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr17.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr7.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr8.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnti10.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnti12.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt10.pfb><C:/Users/tranv/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt12.pfb>
-Output written on main.pdf (48 pages, 4717473 bytes).
+Output written on main.pdf (50 pages, 4726711 bytes).
 PDF statistics:
- 739 PDF objects out of 1000 (max. 8388607)
- 171 named destinations out of 1000 (max. 500000)
+ 755 PDF objects out of 1000 (max. 8388607)
+ 178 named destinations out of 1000 (max. 500000)
  500 words of extra memory for PDF output out of 10000 (max. 10000000)
 

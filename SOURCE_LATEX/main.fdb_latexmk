@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 0 "main.bcf" "main.bbl" "main" 1765816231.92412 -1
+["biber main"] 0 "main.bcf" "main.bbl" "main" 1765817724.80486 -1
   "bibliographie.bib" 1765002737 1133 6162642b4209787f0ea0b3951c3b9b0e ""
-  "main.bcf" 1765816231 107704 900476e8a73c26d2db3ee085bc65cd71 "pdflatex"
+  "main.bcf" 1765817723 107704 900476e8a73c26d2db3ee085bc65cd71 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1765816221.1816 "d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex" "main.pdf" "main" 1765816231.92555 0
+["pdflatex"] 1765817714.08593 "d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex" "main.pdf" "main" 1765817724.80633 2
   "C:/Users/tranv/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1765683850 141446 8f4fbaa2d042efe7d5444634b94d60a2 ""
   "C:/Users/tranv/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcbx1200.pk" 1765643003 15080 9474d4020a15690bd1d845029b454d29 ""
   "C:/Users/tranv/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1765608934 14064 3a15a15a67cad1efbe472f3a9e239a6f ""
@@ -479,7 +479,7 @@
   "C:/Users/tranv/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "C:/Users/tranv/AppData/Local/Programs/MiKTeX/tex/latex/xfor/xfor.sty" 1233849756 2689 44855b72da58344b1c1d9b3087bce6ca ""
   "C:/Users/tranv/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex" 1765612438 5589 2a5ee92259d3124cb7e7d89720192606 ""
+  "d:/BaiTapNhomFinal_Latex/SOURCE_LATEX/main.tex" 1765817719 7448 e73e505b3c61cd0f968cb3a3feb5adcf ""
   "images/3nhombenh.png" 1765643128 35739 fac11cd6c29a7a0ac3180321f6a8e796 ""
   "images/KNIME_CleanData.jpg" 1765590055 68525 5f5bf28569795e70aa8edf187dbb1d1a ""
   "images/bang_dulieu_dauvao.png" 1765643588 112451 0cd5e77b701819be71b45ef2dde99eb8 ""
@@ -515,18 +515,18 @@
   "images/workflow_step8_predictor.png" 1765803444 304272 e338a22fa9ea873fa148434befed5924 ""
   "images/workflow_step9_numeric_scorer.png" 1765803468 76819 8a4ceb2ac6e3ad35d4585159cd2fb6f2 ""
   "images/xuly_giatri.png" 1765643991 101071 3a897e1b5752f06f6a36e9776b503e87 ""
-  "main.aux" 1765816231 24130 70aadeb1e91b859c6c4ffd3e04896edd "pdflatex"
+  "main.aux" 1765817723 24327 9d5b2fa2bfefb2c2fc2fcc56c173877d "pdflatex"
   "main.bbl" 1765638210 486 ee04f40f768daeed26442158e95aba61 "biber main"
-  "main.lof" 1765816231 4678 b0476220e79d32d6d6e63a50d7bb6a74 "pdflatex"
-  "main.lot" 1765816231 1606 df5b9fee09fea26c293eab350e776ac5 "pdflatex"
-  "main.mtc" 1765816222 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.mtc0" 1765816222 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.out" 1765816231 8795 fba01511d936f5eca3cdc781cdf3aa59 "pdflatex"
-  "main.run.xml" 1765816231 2308 ed11a40a8535367f4e2eac2801d1ca6b "pdflatex"
-  "main.tex" 1765612438 5589 2a5ee92259d3124cb7e7d89720192606 ""
-  "main.toc" 1765816231 6396 c0112927c143464ae25b5df316feffde "pdflatex"
+  "main.lof" 1765817723 4678 b0476220e79d32d6d6e63a50d7bb6a74 "pdflatex"
+  "main.lot" 1765817723 1606 df5b9fee09fea26c293eab350e776ac5 "pdflatex"
+  "main.mtc" 1765817715 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.mtc0" 1765817715 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.out" 1765817723 8795 fba01511d936f5eca3cdc781cdf3aa59 "pdflatex"
+  "main.run.xml" 1765817723 2308 ed11a40a8535367f4e2eac2801d1ca6b "pdflatex"
+  "main.tex" 1765817719 7448 e73e505b3c61cd0f968cb3a3feb5adcf ""
+  "main.toc" 1765817723 6396 6e413d497714c23bf7a2353d5aa97731 "pdflatex"
   "parts/intro.tex" 1765816221 3845 bac6aebe06f40cdd3ff3354bde182728 ""
-  "parts/part1.tex" 1765815417 69868 940928b68c0e7675207f6689c34b67c9 ""
+  "parts/part1.tex" 1765816876 74626 85edecf3d985d6dee4d9e77009465ab4 ""
   (generated)
   "main.aux"
   "main.bcf"

@@ -831,7 +831,8 @@ Hình~\ref{fig:hematology_trend} thể hiện xu hướng biến động của b
     \label{fig:hematology_trend}
 \end{figure}
 Dashboard trực quan được xây dựng và triển khai trên nền tảng Google Looker Studio:
-\url{https://lookerstudio.google.com/u/0/reporting/e14956d8-ab2a-4b88-8f59-5b426b960cc5/page/6ZmiF/edit}
+\href{https://lookerstudio.google.com/u/0/reporting/e14956d8-ab2a-4b88-8f59-5b426b960cc5/page/6ZmiF/edit}
+{Google Looker Studio Dashboard}
 
 
 Kết quả cho thấy:
@@ -1198,6 +1199,41 @@ Kết quả từ \textit{Numeric Scorer} cho thấy mô hình Linear Regression 
 
 \chapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
 \startcontents[chapters]
-Kết luận (những kết quả chung đạt được, những kiến thức đã tiếp nhận được,....) và hướng phát triển.
+
+Sau quá trình nghiên cứu và thực nghiệm trên bộ dữ liệu xét nghiệm huyết học, đề tài \textbf{"Phân loại điều trị bệnh nhân (Patient Treatment Classification)"} đã hoàn thành các mục tiêu đề ra ban đầu. Nhóm nghiên cứu không chỉ xây dựng thành công các mô hình học máy để hỗ trợ ra quyết định lâm sàng mà còn tiếp thu được những kiến thức quan trọng về quy trình khai phá dữ liệu (Data Mining) trên nền tảng KNIME Analytics Platform. Dưới đây là những tổng kết chi tiết và định hướng mở rộng trong tương lai.
+
 \section{Kết luận}
+
+Dựa trên các kết quả thực nghiệm, nhóm nghiên cứu rút ra những kết luận chính sau:
+
+\begin{enumerate}
+    \item \textbf{Về quy trình xử lý dữ liệu Y tế:}
+    Nhóm đã xây dựng được một quy trình xử lý dữ liệu khép kín (End-to-End Pipeline) trên KNIME, bao gồm: làm sạch dữ liệu (xử lý Missing Value bằng Median/Mode), chuẩn hóa dữ liệu (Min-Max Normalization) và lựa chọn đặc trưng. Kết quả cho thấy việc loại bỏ các biến nhiễu (như \textit{Sex}) và tập trung vào các chỉ số huyết học cốt lõi (\textit{Thrombocyte, Leucocyte, Haemoglobins}) giúp mô hình hoạt động hiệu quả hơn.
+
+    \item \textbf{Về hiệu quả của mô hình phân loại (Decision Tree):}
+    Mô hình Cây quyết định đạt độ chính xác tổng thể khoảng \textbf{74\%}. Mặc dù chưa đạt mức xuất sắc ($>90\%$) để thay thế hoàn toàn bác sĩ, nhưng mô hình có ưu điểm vượt trội về \textbf{khả năng diễn giải (Explainability)}. Bộ quy tắc \textit{IF-THEN} được trích xuất (ví dụ: \textit{Nếu Tiểu cầu > 456 và Bạch cầu > 11 thì Nhập viện}) hoàn toàn phù hợp với logic y khoa, giúp các bác sĩ dễ dàng tham khảo và kiểm chứng.
+
+    \item \textbf{Về khả năng phân cụm bệnh nhân (Clustering):}
+    Thuật toán K-Means ($K=3$) đã phát hiện thành công các nhóm bệnh nhân tự nhiên: Nhóm nguy cơ nhiễm trùng, Nhóm thiếu máu người cao tuổi và Nhóm sức khỏe ổn định. Kết quả này mở ra hướng đi cho việc phân luồng bệnh nhân tự động ngay từ khâu tiếp đón mà chưa cần chẩn đoán sâu.
+
+    \item \textbf{Về công cụ và kỹ năng:}
+    Thông qua đề tài, nhóm đã làm chủ được công cụ KNIME - một nền tảng mạnh mẽ cho phân tích dữ liệu mà không cần lập trình quá nhiều (Low-code), giúp tập trung thời gian vào việc phân tích ý nghĩa dữ liệu thay vì sửa lỗi cú pháp dòng lệnh.
+\end{enumerate}
+
 \section{Hướng phát triển}
+
+Mặc dù đã đạt được những kết quả khả quan, đề tài vẫn còn một số hạn chế nhất định. Để nâng cao tính ứng dụng thực tiễn và độ chính xác, nhóm đề xuất các hướng phát triển tiếp theo như sau:
+
+\begin{itemize}
+    \item \textbf{Cải thiện độ chính xác bằng các mô hình tổ hợp (Ensemble Learning):}
+    Trong tương lai, sẽ thử nghiệm các thuật toán mạnh mẽ hơn như \textit{Random Forest} hoặc \textit{Gradient Boosting (XGBoost)}. Các mô hình này có khả năng giảm thiểu hiện tượng quá khớp (Overfitting) và thường cho độ chính xác cao hơn cây quyết định đơn lẻ, dù phải đánh đổi một phần khả năng diễn giải trực quan.
+
+    \item \textbf{Mở rộng đặc trưng dữ liệu (Feature Enrichment):}
+    Hiện tại mô hình chỉ dựa trên kết quả xét nghiệm máu (CBC). Để tăng độ tin cậy, cần tích hợp thêm các dữ liệu lâm sàng khác như: Chỉ số sinh tồn (Huyết áp, Nhịp tim, Nhiệt độ), Triệu chứng cơ năng (Sốt, Đau bụng...) và Tiền sử bệnh lý.
+
+    \item \textbf{Tối ưu hóa tham số (Hyperparameter Tuning):}
+    Sử dụng các kỹ thuật như \textit{Grid Search} hoặc \textit{Bayesian Optimization} để tìm ra bộ tham số tối ưu nhất cho mô hình thay vì thiết lập thủ công (ví dụ: tự động tìm độ sâu cây tối ưu thay vì cố định là 10).
+
+    \item \textbf{Xây dựng ứng dụng Web/Mobile (Deployment):}
+    Đóng gói mô hình đã huấn luyện thành một API và tích hợp vào một ứng dụng Web (ví dụ: sử dụng Java Spring Boot hoặc Python Flask). Điều này sẽ giúp các bác sĩ hoặc nhân viên y tế có thể nhập liệu trực tiếp trên giao diện phần mềm và nhận kết quả gợi ý tức thì, đưa nghiên cứu từ lý thuyết vào ứng dụng thực tế tại bệnh viện.
+\end{itemize}
