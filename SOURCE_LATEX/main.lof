@@ -1,0 +1,43 @@
+\babel@toc {english}{}\relax 
+\babel@toc {vietnamese}{}\relax 
+\addvspace {10\p@ }
+\contentsline {xchapter}{GIỚI THIỆU VÀ MÔ TẢ BÀI TOÁN}{1}{chapter.1}%
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Biểu đồ phân phối của các chỉ số huyết học chính}}{3}{figure.caption.12}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Dữ liệu sau khi làm sạch bằng KNIME}}{5}{figure.caption.14}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{CÁC NGHIÊN CỨU CÓ LIÊN QUAN}{6}{chapter.2}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Tổng quan Workflow thực hiện trên KNIME}}{6}{figure.caption.15}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Hình ảnh trực quan hóa một nhánh của Cây quyết định}}{9}{figure.caption.23}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Quy trình xử lý bài toán Gom nhóm trên KNIME}}{10}{figure.caption.24}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Biểu đồ tương quan}}{11}{figure.caption.26}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Kết quả chuẩn hóa Z-score}}{13}{figure.caption.28}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Biểu đồ ma trận tương quan (z-score)}}{13}{figure.caption.29}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Kết quả phân cụm}}{14}{figure.caption.31}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Dữ liệu đầu vào từ CSV}}{15}{figure.caption.33}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Dữ liệu đã lọc}}{15}{figure.caption.34}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Xử lý giá trị}}{16}{figure.caption.35}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Chuẩn hóa dữ liệu}}{17}{figure.caption.36}%
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Huấn luyện mô hình}}{18}{figure.caption.37}%
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Dự đoán gán nhãn cụm}}{18}{figure.caption.38}%
+\contentsline {figure}{\numberline {2.14}{\ignorespaces Dữ liệu thang đo gốc}}{19}{figure.caption.39}%
+\contentsline {figure}{\numberline {2.15}{\ignorespaces Gán màu theo cụm}}{19}{figure.caption.40}%
+\contentsline {figure}{\numberline {2.16}{\ignorespaces Trực quan hóa kết quả phân cụm}}{20}{figure.caption.41}%
+\contentsline {figure}{\numberline {2.17}{\ignorespaces Ma trận tương quan tuyến tính Pearson}}{21}{figure.caption.42}%
+\contentsline {figure}{\numberline {2.18}{\ignorespaces Biểu đồ xu hướng theo thời gian}}{24}{figure.caption.44}%
+\contentsline {figure}{\numberline {2.19}{\ignorespaces Cấu trúc Cây quyết định hiển thị trên KNIME (Nút gốc là Thrombocyte)}}{25}{figure.caption.45}%
+\contentsline {figure}{\numberline {2.20}{\ignorespaces Biểu đồ mật độ tuổi}}{27}{figure.caption.47}%
+\contentsline {figure}{\numberline {2.21}{\ignorespaces Biểu đồ phân bố tuổi theo nhóm bệnh nhân}}{27}{figure.caption.48}%
+\contentsline {figure}{\numberline {2.22}{\ignorespaces Biểu đồ phân bố tuổi theo nhóm}}{28}{figure.caption.49}%
+\contentsline {figure}{\numberline {2.23}{\ignorespaces Biểu đồ pairplot thể hiện mối quan hệ giữa các biến số và \textit {charges}}}{30}{figure.caption.54}%
+\contentsline {figure}{\numberline {2.24}{\ignorespaces Boxplot thể hiện phân phối \textit {charges} theo các biến phân loại}}{31}{figure.caption.56}%
+\contentsline {figure}{\numberline {2.25}{\ignorespaces Node CSV Reader trong workflow Linear Regression}}{32}{figure.caption.58}%
+\contentsline {figure}{\numberline {2.26}{\ignorespaces Node One to Many mã hóa các biến phân loại}}{33}{figure.caption.61}%
+\contentsline {figure}{\numberline {2.27}{\ignorespaces Chuẩn hóa dữ liệu trên tập huấn luyện}}{34}{figure.caption.64}%
+\contentsline {figure}{\numberline {2.28}{\ignorespaces Áp dụng mô hình chuẩn hóa cho tập test}}{34}{figure.caption.66}%
+\contentsline {figure}{\numberline {2.29}{\ignorespaces Node Linear Regression Learner}}{35}{figure.caption.68}%
+\contentsline {figure}{\numberline {2.30}{\ignorespaces Node Regression Predictor}}{35}{figure.caption.70}%
+\contentsline {figure}{\numberline {2.31}{\ignorespaces Kết quả đánh giá mô hình Linear Regression}}{36}{figure.caption.72}%
+\contentsline {figure}{\numberline {2.32}{\ignorespaces So sánh giá trị dự đoán và giá trị thực của \textit {charges}}}{37}{figure.caption.73}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}{38}{chapter.3}%
+\contentsfinish 

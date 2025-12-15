@@ -1,0 +1,214 @@
+\documentclass[12pt,oneside]{book}
+%\usepackage{natbib}
+\usepackage[
+	backend=biber,
+	style=numeric,
+]{biblatex}
+\addbibresource{bibliographie.bib}
+
+\usepackage{subcaption}
+\usepackage[main=english,vietnamese]{babel}
+\usepackage[utf8]{inputenc}
+% \usepackage[english]{babel}
+% \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,left=3cm,right=2.5cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{amsmath}
+% \usepackage{libertine}
+\usepackage{graphicx}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{apalike}
+\usepackage{minitoc}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{epigraph}
+
+%\usetikzlibrary{shadows.blur}
+\usepackage{lscape}
+\usepackage{titletoc}
+%\usepackage{lipsum}
+%\usepackage{cite}
+\usepackage{booktabs}
+% \usepackage{arydshln}
+\usepackage[nonumberlist]{glossaries}
+\usepackage{calc}
+\usepackage[]{titlesec} 
+\definecolor{linkColor}{HTML}{32a852}
+\usepackage[colorlinks=true,citecolor=linkColor,linkcolor=black]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+\usepackage{tabularx}
+
+
+\definecolor{yourcolor}{HTML}{8a0e19}%{008bb2}
+
+\titleformat{\chapter}[display]
+{\normalfont\color{yourcolor}}
+{\filleft\huge\color{black}\textsc\chaptertitlename\hspace*{2mm}%
+	\begin{tikzpicture}[baseline={([yshift=-.6ex]current bounding box.center)}]
+	\node[fill=yourcolor,circle,text=white] {\thechapter};
+	\end{tikzpicture}
+}
+{1ex}
+{\titlerule[1.5pt]\vspace*{1.5ex}\Huge\color{black}\textsc}
+[]
+
+\titleformat{name=\chapter,numberless}[display]
+{\normalfont\color{black}}
+{}
+{1ex}
+% {\vspace*{-5cm}\Huge\textsc}
+{\Huge\centering\textsc}
+[]
+
+%command to print the acutal minitoc
+\newcommand{\printmyminitoc}[1]{%
+	\noindent\hspace{1cm}%
+	\colorlet{chpnumbercolor}{black}%
+	\begin{tikzpicture}
+	\node(s){
+		\begin{minipage}{.9\linewidth}%minipage trick
+		\printcontents[chapters]{}{1}{}
+		\end{minipage}
+	};
+	{
+		\color{yourcolor}
+		\draw(s.north west)--(s.north east) (s.south west)--(s.south east);
+	}
+	\end{tikzpicture}
+	\vspace*{3ex}
+	
+	#1
+	\vfill
+	\pagebreak
+}
+
+
+\newcommand{\HRule}{\rule{\linewidth}{0.7mm}}
+\newcommand{\Hrule}{\rule{\linewidth}{0.3mm}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\begin{document}
+\selectlanguage{vietnamese} 
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture,overlay,inner sep=0,outer sep=0]
+     \draw[blue!70!black,line width=4pt] ([xshift=-1.5cm,yshift=-2cm]current page.north east) coordinate (A)--([xshift=1.5cm,yshift=-2cm]current page.north west) coordinate(B)--([xshift=1.5cm,yshift=2cm]current page.south west) coordinate (C)--([xshift=-1.5cm,yshift=2cm]current page.south east) coordinate(D)--cycle;
+
+     \draw ([yshift=0.5cm,xshift=-0.5cm]A)-- ([yshift=0.5cm,xshift=0.5cm]B)--
+     ([yshift=-0.5cm,xshift=0.5cm]B) --([yshift=-0.5cm,xshift=-0.5cm]B)--([yshift=0.5cm,xshift=-0.5cm]C)--([yshift=0.5cm,xshift=0.5cm]C)--([yshift=-0.5cm,xshift=0.5cm]C)-- ([yshift=-0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=0.5cm]D)--([yshift=-0.5cm,xshift=0.5cm]A)--([yshift=-0.5cm,xshift=-0.5cm]A)--([yshift=0.5cm,xshift=-0.5cm]A);
+
+     \draw ([yshift=-0.3cm,xshift=0.3cm]A)-- ([yshift=-0.3cm,xshift=-0.3cm]B)--
+     ([yshift=0.3cm,xshift=-0.3cm]B) --([yshift=0.3cm,xshift=0.3cm]B)--([yshift=-0.3cm,xshift=0.3cm]C)--([yshift=-0.3cm,xshift=-0.3cm]C)--([yshift=0.3cm,xshift=-0.3cm]C)-- ([yshift=0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=-0.3cm]D)--([yshift=0.3cm,xshift=-0.3cm]A)--([yshift=0.3cm,xshift=0.3cm]A)--([yshift=-0.3cm,xshift=0.3cm]A);
+
+   \end{tikzpicture}
+   
+	
+		\begin{center}
+			\begin{tabular}{c@{\hskip 0.1cm}c}
+				\includegraphics[height=2cm]{images/logoCTU.png} 
+			\end{tabular}
+		\end{center}
+	
+		
+		\begin{center}
+
+			ĐẠI HỌC CẦN THƠ \\
+			Trường Công nghệ thông tin và Truyền thông
+  
+  			\vfill
+  			
+		\textsc{\large	Báo cáo môn học: CT999 \\  Công nghệ số nâng cao}\\[1cm]
+   
+	 		\HRule \\[0.1cm]
+	 		 { \LARGE \bfseries PHÂN LOẠI ĐIỀU TRỊ BỆNH NHÂN}
+	  		\Hrule \\
+		
+		\end{center}
+		
+		\vfill
+			
+		\begin{center}
+			
+  	\large	Thực hiện bởi: \\[0.5cm] 
+	 \Large 	Nhóm 5\\[0.5cm] 
+			\begin{tabular}{lll}
+\textbf{Trần Ngọc Khang}  &  \textsc{M2525025} & \textsc{Trưởng nhóm} \\
+	\textbf{Trần Vũ Khiêm}  &  \textsc{M2525026} & \textsc{Thành viên} \\
+	\textbf{Dương Quốc Trọng}  &  \textsc{M2525038} & \textsc{Thành viên} \\
+				
+			\end{tabular}
+% Hướng dẫn bởi: \\[1cm] 
+	\\[1cm] 
+			\begin{tabular}{ll}
+			      GVHD:  PGS.TS. Nguyễn Thanh Hải \\
+				
+			\end{tabular}
+
+      
+      % \\[1cm] 
+   
+		
+
+		
+	
+			
+			\vspace{1cm}	
+  \normalsize Học kỳ 1, năm học 2025-2026\\
+\normalsize \today 		%	Tháng 12, 2025
+   \end{center}
+	% \newpage
+	\end{titlepage}
+
+
+
+\pagestyle{fancy}
+
+\fancyhead{}
+
+\renewcommand{\chaptermark}[1]{\markboth{\textsc{#1}}{}}
+
+
+\frontmatter
+
+\tableofcontents
+\addcontentsline{toc}{chapter}{Mục lục}
+
+\listoffigures
+\addcontentsline{toc}{chapter}{Danh sách Hình}
+
+\listoftables
+\addcontentsline{toc}{chapter}{Danh sách Bảng}
+
+\input{parts/intro.tex}
+
+\mainmatter
+
+% \setlength{\parskip}{.7em}
+
+% \titlespacing*{\section}{0pt}{.9em}{.8em}
+\titlespacing*{\chapter}{0pt}{-5pt}{12pt}
+\renewcommand{\baselinestretch}{1.1}
+
+
+\fancyhead[RO]{\leftmark}
+
+\input{parts/part1.tex}
+
+
+\printbibliography
+\addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+
+\end{document}

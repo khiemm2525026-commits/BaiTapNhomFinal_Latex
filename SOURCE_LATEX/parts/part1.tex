@@ -1,0 +1,1199 @@
+\chapter{GIỚI THIỆU VÀ MÔ TẢ BÀI TOÁN}
+% \epigraph{\itshape  La volonté trouve, la liberté choisit. Trouver et choisir, c'est penser}{-- Victor Hugo}
+
+\startcontents[chapters]
+\section{Giới thiệu}
+\label{sec:intro}
+
+Trong hệ thống y tế hiện đại, hồ sơ sức khỏe điện tử (Electronic Health Records - EHR) đóng vai trò trung tâm trong việc lưu trữ và quản lý thông tin bệnh nhân. Tại các quốc gia đang phát triển như Indonesia, sự quá tải tại các bệnh viện tư nhân và công lập thường xuyên xảy ra, dẫn đến nhu cầu cấp thiết về việc tối ưu hóa quy trình phân loại bệnh nhân (Triage). Việc quyết định một bệnh nhân cần nhập viện điều trị nội trú (In-care) hay có thể điều trị ngoại trú (Out-care) thường phụ thuộc vào đánh giá chủ quan của bác sĩ dựa trên các chỉ số xét nghiệm lâm sàng.
+
+Tuy nhiên, việc ra quyết định thủ công có thể gặp sai sót do áp lực thời gian hoặc sự phức tạp trong tương quan giữa các chỉ số sinh hóa. Đề tài \textbf{"Phân loại điều trị bệnh nhân (Patient Treatment Classification)"} tập trung nghiên cứu việc ứng dụng các kỹ thuật Học máy (Machine Learning) để hỗ trợ ra quyết định lâm sàng dựa trên kết quả xét nghiệm máu tiêu chuẩn.
+
+Nghiên cứu sử dụng bộ dữ liệu thực tế từ một bệnh viện tư nhân tại Indonesia, bao gồm các chỉ số huyết học quan trọng (như Hồng cầu, Bạch cầu, Tiểu cầu...). Mục tiêu là xây dựng một mô hình phân loại tự động, giúp các bác sĩ đưa ra quyết định nhập viện nhanh chóng và chính xác hơn, từ đó tối ưu hóa nguồn lực y tế và giảm thiểu chi phí cho bệnh nhân.
+
+% -----------------------------------------------------------------
+\section{Mô tả bài toán}
+\label{sec:problem_desc}
+
+\subsection{Định nghĩa bài toán}
+Bài toán được xác định là một vấn đề "Phân loại nhị phân (Binary Classification)" trong ngữ cảnh Y tế thông minh.
+
+Cho tập dữ liệu $D = \{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)\}$ với $n = 4412$ bản ghi bệnh nhân. Trong đó:
+\begin{itemize}
+    \item $x_i \in \mathbb{R}^{10}$ là vector đặc trưng bao gồm 8 chỉ số xét nghiệm huyết học và 2 thông tin nhân khẩu học (tuổi, giới tính).
+    \item $y_i \in \{ \text{In-care}, \text{Out-care} \}$ là nhãn mục tiêu dự đoán.
+    \begin{itemize}
+        \item \textbf{In-care (Nội trú):} Bệnh nhân cần nhập viện để theo dõi và điều trị tích cực.
+        \item \textbf{Out-care (Ngoại trú):} Bệnh nhân điều trị ngoại trú, có thể điều trị tại nhà hoặc tái khám định kỳ.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Mô tả dữ liệu và đặc trưng y sinh}
+Bộ dữ liệu bao gồm 11 thuộc tính, trong đó các chỉ số xét nghiệm máu đóng vai trò là các biến dự báo chính:
+
+\begin{enumerate}
+    \item \textbf{Nhóm chỉ số dòng Hồng cầu (Red Blood Cells):}
+    \begin{itemize}
+        \item \texttt{HAEMATOCRIT} (\%): Tỷ lệ thể tích hồng cầu trong máu, chỉ số quan trọng để đánh giá độ nhớt của máu và tình trạng thiếu máu.
+        \item \texttt{HAEMOGLOBINS} (g/dL): Lượng huyết sắc tố, quyết định khả năng vận chuyển oxy.
+        \item \texttt{ERYTHROCYTE} ($10^6/\mu L$): Số lượng hồng cầu.
+        \item \texttt{MCV, MCH, MCHC}: Các chỉ số dòng hồng cầu giúp phân loại tính chất thiếu máu (nhược sắc, đẳng sắc...).
+    \end{itemize}
+    
+    \item \textbf{Nhóm chỉ số miễn dịch và đông máu:}
+    \begin{itemize}
+        \item \texttt{LEUCOCYTE} (Bạch cầu - $10^3/\mu L$): Chỉ số quan trọng nhất để phát hiện nhiễm trùng. Lượng bạch cầu tăng cao thường là dấu hiệu cần can thiệp y tế khẩn cấp (In-care).
+        \item \texttt{THROMBOCYTE} (Tiểu cầu - $10^3/\mu L$): Đánh giá khả năng đông máu.
+    \end{itemize}
+    
+    \item \textbf{Thông tin nhân khẩu học:}
+    \begin{itemize}
+        \item \texttt{AGE}: Tuổi bệnh nhân.
+        \item \texttt{SEX}: Giới tính (Giá trị: M/F).
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Phân tích đặc điểm dữ liệu}
+\label{subsec:data_analysis}
+
+Để hiểu rõ cấu trúc và đặc tính của tập dữ liệu, nghiên cứu tiến hành phân tích thống kê mô tả trên 4412 bản ghi. Kết quả phân tích sơ bộ cho thấy tập dữ liệu đã được làm sạch tốt, không chứa giá trị bị khuyết (missing values) ở bất kỳ thuộc tính nào. Dưới đây là các đặc điểm chi tiết:
+
+\subsubsection{Phân bố biến mục tiêu}
+Biến mục tiêu \texttt{SOURCE} phân chia bệnh nhân thành hai nhóm: điều trị nội trú (in) và ngoại trú (out).
+\begin{itemize}
+    \item \textbf{Nhóm Out-care (Ngoại trú):} Chiếm đa số với 2628 mẫu (tương đương 59.6\%).
+    \item \textbf{Nhóm In-care (Nội trú):} Bao gồm 1784 mẫu (tương đương 40.4\%).
+\end{itemize}
+
+\textbf{Nhận xét:} Tỷ lệ chênh lệch giữa hai lớp là khoảng 1.5:1. Mặc dù đây không phải là bài toán mất cân bằng dữ liệu nghiêm trọng (severe imbalance), nhưng sự chênh lệch này vẫn đòi hỏi việc lựa chọn thước đo đánh giá phù hợp. Độ chính xác (Accuracy) đơn thuần có thể bị sai lệch, do đó các chỉ số như \textit{Precision, Recall} và \textit{F1-Score} sẽ được ưu tiên sử dụng để đánh giá hiệu quả của mô hình.
+
+\subsubsection{Thống kê mô tả các biến định lượng}
+Bảng tóm tắt các chỉ số thống kê quan trọng của các biến đầu vào.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Thống kê mô tả các biến số quan trọng}
+    \label{tab:stat_describe}
+    \begin{tabular}{|l|r|r|r|r|}
+        \hline
+        \textbf{Đặc trưng} & \textbf{Trung bình} & \textbf{Độ lệch chuẩn} & \textbf{Min} & \textbf{Max} \\ \hline
+        Age (Tuổi) & 46.63 & 21.73 & 1.0 & 99.0 \\ \hline
+        Haematocrit (\%) & 38.20 & 5.97 & 13.7 & 69.0 \\ \hline
+        Haemoglobins (g/dL) & 12.74 & 2.08 & 3.8 & 18.9 \\ \hline
+        Leucocyte ($10^3/\mu L$) & 8.72 & 5.05 & 1.1 & 76.6 \\ \hline
+        Thrombocyte ($10^3/\mu L$) & 257.52 & 113.97 & 8.0 & 1183.0 \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item \textbf{Độ tuổi (Age):} Dải độ tuổi trải rộng từ 1 đến 99 tuổi, trung bình là 46.6 tuổi. Độ lệch chuẩn lớn (21.73) cho thấy tập dữ liệu bao phủ đa dạng các nhóm đối tượng từ nhi khoa đến lão khoa.
+    \item \textbf{Chỉ số Bạch cầu (Leucocyte):} Đây là chỉ số có độ biến động rất cao. Mặc dù trung bình là 8.72 (mức bình thường), nhưng giá trị cực đại lên tới 76.6 ($10^3/\mu L$). Trong y học, bạch cầu tăng cao đột biến thường là dấu hiệu của nhiễm trùng nặng hoặc các bệnh lý cấp tính, đây dự kiến sẽ là đặc trưng quan trọng (feature importance) để phân loại nhóm \textit{In-care}.
+    \item \textbf{Chỉ số Tiểu cầu (Thrombocyte):} Tương tự, dải dữ liệu rất rộng (8.0 - 1183.0), bao gồm cả những bệnh nhân có nguy cơ xuất huyết cao (tiểu cầu thấp) và tăng tiểu cầu.
+\end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/bieudo_histogram_phanphoi.png} 
+    \caption{Biểu đồ phân phối của các chỉ số huyết học chính}
+    \label{fig:feature_dist}
+\end{figure}
+
+Từ những phân tích trên, nhóm nghiên cứu nhận thấy dữ liệu có độ phân tán cao và chứa các giá trị ngoại lai (outliers) tự nhiên phản ánh tình trạng bệnh lý. Do đó, các mô hình học máy dạng cây (Tree-based models) như Decision Tree hoặc Random Forest thường sẽ phù hợp hơn so với các mô hình tuyến tính, nhờ khả năng xử lý tốt các quan hệ phi tuyến và không yêu cầu chuẩn hóa dữ liệu khắt khe.
+
+\subsection{Phân tích đặc điểm dữ liệu}
+Qua quá trình khám phá dữ liệu (EDA), nhóm nghiên cứu ghi nhận các đặc điểm kỹ thuật:
+\begin{itemize}
+    \item \textbf{Phân bố nhãn:} Tập dữ liệu bao gồm 4412 mẫu, trong đó có sự chênh lệch nhẹ giữa hai lớp (Out-care: 2628 mẫu, In-care: 1784 mẫu), đòi hỏi các kỹ thuật đánh giá như F1-Score thay vì chỉ dùng Accuracy.
+    \item \textbf{Xử lý dữ liệu:} Trong quá trình làm sạch dữ liệu, việc xử lý các giá trị bị khuyết (null/missing) là bước bắt buộc để đảm bảo thuật toán máy học hoạt động ổn định. Nhóm sử dụng node \textbf{Missing Value} trong KNIME với cấu hình chi tiết như sau:
+\end{itemize}
+\begin{table}[htbp]
+    \centering
+    \caption{Cấu hình và ý nghĩa phương pháp xử lý giá trị thiếu}
+    \label{tab:missing_value_config}
+    \begin{tabularx}{\textwidth}{@{} l X X @{}}
+        \toprule
+        \textbf{Cấu hình} & \textbf{Ý nghĩa (Meaning)} & \textbf{Tác dụng (Effect)} \\
+        \midrule
+        
+        \textbf{Numeric $\rightarrow$ Median} & 
+        Thay thế giá trị thiếu bằng số trung vị của toàn bộ cột dữ liệu số. & 
+        Giúp giảm nhiễu, hạn chế tác động tiêu cực của các giá trị ngoại lai (outliers), giúp mô hình ổn định hơn so với dùng giá trị trung bình (Mean). \\
+        \addlinespace
+        
+        \textbf{Categorical $\rightarrow$ Most Frequent} & 
+        Thay thế giá trị thiếu bằng nhãn (nhóm) xuất hiện nhiều nhất trong cột. & 
+        Bảo toàn phân phối xác suất của các nhãn, tránh việc tạo ra các nhóm dữ liệu nhân tạo hoặc các giá trị "Unknown" không cần thiết. \\
+        \addlinespace
+        
+        \textbf{Node Missing Value} & 
+        Tự động quét và áp dụng quy tắc trên toàn bộ Dataset. & 
+        Đảm bảo tính toàn vẹn của dữ liệu (Data Integrity), ngăn chặn lỗi thực thi khi đưa vào các node huấn luyện (Learner) sau này. \\
+        
+        \bottomrule
+    \end{tabularx}
+\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/KNIME_CleanData.jpg}
+    \caption{Dữ liệu sau khi làm sạch bằng KNIME}
+    \label{fig:decision_tree}
+\end{figure}
+
+\begin{itemize}
+    \item Sau khi chạy node missing, kết quả cho thấy số dòng dữ liệu không bị thay đổi, chứng tỏ tập dữ liệu không bị nhiễu.
+\end{itemize}
+
+% -----------------------------------------------------------------
+\section{Đóng góp chính của nghiên cứu}
+\label{sec:contributions}
+
+Dựa trên việc khai thác bộ dữ liệu EHR từ Indonesia, báo cáo đưa ra những đóng góp cụ thể sau đối với lĩnh vực Tin học Y tế:
+
+\begin{itemize}
+    \item \textbf{Xây dựng hệ thống Phân loại điều trị bệnh nhân tự động:}
+    Đề xuất một quy trình khép kín từ dữ liệu xét nghiệm thô đến dự báo nhập viện. Nghiên cứu chứng minh rằng chỉ cần dựa vào các xét nghiệm máu cơ bản (chi phí thấp, có sẵn ở mọi cơ sở y tế) kết hợp với thuật toán Học máy, ta có thể phân loại chính xác nhu cầu điều trị mà không cần các xét nghiệm chẩn đoán hình ảnh đắt tiền.
+
+    \item \textbf{Phân tích tương quan y sinh (Biomedical Feature Importance):}
+    Thông qua kỹ thuật trích xuất đặc trưng từ các mô hình cây quyết định, nghiên cứu đã định lượng được tầm quan trọng của các chỉ số như \textit{Leucocyte} (Bạch cầu) và \textit{Haemoglobins} trong việc quyết định nhập viện. Điều này cung cấp góc nhìn tham khảo giá trị cho các bác sĩ lâm sàng.
+
+    \item \textbf{Quy trình chuẩn hóa dữ liệu y tế đa biến:}
+    Thiết lập phương pháp tiền xử lý dữ liệu phù hợp cho các chỉ số sinh học có biên độ dao động lớn. Đồng thời, nghiên cứu đề xuất giải pháp mã hóa biến định danh (Encoding) cho thuộc tính giới tính (\texttt{SEX}) và mục tiêu (\texttt{SOURCE}) để tối ưu hóa đầu vào cho các thuật toán.
+
+    \item \textbf{Đảm bảo tính riêng tư và đạo đức số:}
+    Mặc dù sử dụng dữ liệu thứ cấp, nhóm nghiên cứu vẫn tuân thủ quy trình ẩn danh hóa, đảm bảo không có thông tin định danh cá nhân (PII) nào được khôi phục ngược lại, phù hợp với các quy định về bảo mật thông tin y tế.
+\end{itemize}
+
+\chapter{CÁC NGHIÊN CỨU CÓ LIÊN QUAN}
+% -----------------------------------------------------------------
+\section{Bài toán phân loại (Sử dụng KNIME)}
+\label{sec:methodology}
+\subsection{Lựa chọn Thuật toán và Công cụ}
+Để giải quyết bài toán phân loại bệnh nhân (In-care vs Out-care), nhóm nghiên cứu lựa chọn thuật toán \textbf{Cây quyết định (Decision Tree)} triển khai trên nền tảng \textbf{KNIME Analytics Platform}. Đây là thuật toán học có giám sát với ưu điểm nổi bật là tính dễ giải thích, phù hợp với yêu cầu hỗ trợ ra quyết định trong y tế.
+\subsection{Quy trình Xây dựng Workflow}
+Quy trình thực nghiệm được thiết kế theo luồng xử lý dữ liệu chuẩn (Pipeline) trong KNIME, bao gồm các bước chính sau:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/workflow.jpg} 
+    \caption{Tổng quan Workflow thực hiện trên KNIME}
+    \label{fig:knime_workflow}
+\end{figure}
+
+\subsubsection{Bước 1: Đọc và Tiền xử lý dữ liệu (Preprocessing)}
+\begin{enumerate}
+    \item \textbf{Nhập dữ liệu:} Dữ liệu từ file \texttt{data-ori.csv} được nạp vào node CSV Reader.
+    
+    \item \textbf{Lọc bỏ thuộc tính nhiễu:} 
+    Dựa trên phân tích nhân khẩu học, thuộc tính \texttt{SEX} (Giới tính) được loại bỏ khỏi mô hình.
+    \begin{itemize}
+        \item \textit{Lý do:} Giới tính là biến nhân khẩu học, không phải chỉ số sinh hóa trực tiếp phản ánh tình trạng cấp cứu. Việc đưa biến này vào có thể gây nhiễu và làm giảm độ chính xác nếu dữ liệu mất cân bằng.
+    \end{itemize}
+
+    \item \textbf{Xử lý giá trị thiếu:} 
+    Để đảm bảo tính toàn vẹn của dữ liệu, nhóm sử dụng node \textit{Missing Value} với cấu hình như Bảng \ref{tab:missing_config}.
+
+    \begin{table}[htbp]
+        \centering
+        \caption{Cấu hình xử lý giá trị thiếu trong KNIME}
+        \label{tab:missing_config}
+        \begin{tabularx}{\textwidth}{@{} l X @{}}
+            \toprule
+            \textbf{Loại dữ liệu} & \textbf{Phương pháp xử lý} \\
+            \midrule
+            Numeric (Số) & \textbf{Median (Trung vị):} Giúp giảm nhiễu, chống lại tác động của các giá trị ngoại lai (outliers) tốt hơn so với trung bình. \\
+            \addlinespace
+            Categorical (Chuỗi) & \textbf{Most Frequent (Phổ biến nhất):} Giữ nguyên phân phối nhãn của dữ liệu gốc, không tạo ra các giá trị nhân tạo. \\
+            \bottomrule
+        \end{tabularx}
+    \end{table}
+
+    \item \textbf{Phân chia dữ liệu:}
+    Tập dữ liệu được chia theo tỷ lệ \textbf{70\% Training} và \textbf{30\% Testing}.
+    \begin{itemize}
+        \item \textit{Chế độ:} Stratified sampling (Phân tầng) theo cột \texttt{SOURCE} để đảm bảo tỷ lệ In/Out được giữ nguyên như ban đầu, tránh lệch nhãn.
+        \item \textit{Random seed:} 1234 (Để cố định kết quả thực nghiệm).
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Bước 2: Áp dụng mô hình lên tập test}
+Node \textbf{Decision Tree Learner} được cấu hình với các tham số tối ưu hóa để cân bằng giữa độ chính xác và khả năng tổng quát hóa:
+
+\begin{itemize}
+    \item \textbf{Target column:} SOURCE (Biến mục tiêu dự đoán In/Out).
+    \item \textbf{Split Criterion:} Gini Index (Tối ưu hóa tốc độ và độ chính xác phân chia).
+    \item \textbf{Max depth:} 10 (Giới hạn độ sâu cây để giảm Overfitting).
+    \item \textbf{Min records per node:} 5 (Đảm bảo độ tin cậy tại các nút lá).
+    \item \textbf{Pruning:} MDL (Minimum Description Length) được kích hoạt để cắt tỉa các nhánh thừa.
+\end{itemize}
+
+\subsubsection{Kết quả trên Ma trận nhầm lẫn (Confusion Matrix)}
+Sau khi áp dụng mô hình lên tập kiểm thử (Test set) gồm 1324 mẫu, kết quả chi tiết được thống kê trong Bảng \ref{tab:confusion_matrix}.
+
+\begin{table}[H]
+    \centering
+    \caption{Ma trận nhầm lẫn (Confusion Matrix) thực tế}
+    \label{tab:confusion_matrix}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \multirow{2}{*}{\textbf{Thực tế (Actual)}} & \multicolumn{2}{c|}{\textbf{Dự đoán (Predicted)}} \\ \cline{2-3}
+         & \textbf{OUT} & \textbf{IN} \\ \hline
+        \textbf{OUT} & \textbf{579} (TP) & 210 (FN) \\ \hline
+        \textbf{IN} & 206 (FP) & \textbf{329} (TN) \\ \hline
+    \end{tabular}
+    \\[5pt]
+    \footnotesize{\textit{Ghi chú: TP là số ca Out dự đoán đúng, FN là số ca Out dự đoán sai, TN là số ca In dự đoán đúng, FP là số ca In dự đoán sai.}}
+\end{table}
+
+\textbf{Phân tích kết quả:}
+\begin{itemize}
+    \item Mô hình nhận diện đúng \textbf{579} bệnh nhân ngoại trú (Out) và \textbf{329} bệnh nhân nội trú (In).
+    \item Có \textbf{216} trường hợp thực tế là Out nhưng mô hình dự báo nhầm thành In.
+    \item Đáng lưu ý, có \textbf{191} trường hợp thực tế cần nhập viện (In) nhưng mô hình dự báo là ngoại trú (Out). Đây là sai số cần được quan tâm để giảm thiểu rủi ro y tế.
+\end{itemize}
+
+\subsubsection{Các chỉ số đánh giá hiệu năng}
+Hiệu suất tổng thể của mô hình được đánh giá qua các chỉ số chi tiết trong Bảng \ref{tab:metrics}.
+
+\begin{table}[H]
+    \centering
+    \caption{Các chỉ số đánh giá hiệu năng mô hình Decision Tree}
+    \label{tab:metrics}
+    \begin{tabularx}{\textwidth}{@{} l c c X @{}}
+        \toprule
+        \textbf{Chỉ số} & \textbf{Lớp OUT} & \textbf{Lớp IN} & \textbf{Ý nghĩa} \\
+        \midrule
+        Precision & 0.737 & 0.610 & Tỷ lệ dự đoán đúng trong số các trường hợp được dán nhãn. \\
+        \addlinespace
+        Recall (Sensitivity) & 0.733 & 0.614 & Khả năng phát hiện đúng các trường hợp thực tế. \\
+        \addlinespace
+        F1-Score & \textbf{0.735} & \textbf{0.612} & Trung bình điều hòa giữa Precision và Recall. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\textbf{Nhận xét chung:}
+\begin{itemize}
+    \item \textbf{Độ chính xác (Accuracy):} Đạt khoảng \textbf{68.5\%}. Kết quả này phản ánh đúng đặc thù của dữ liệu y tế thực tế, nơi các chỉ số sinh học thường có độ biến thiên lớn và nhiễu.
+    \item \textbf{So sánh giữa hai lớp:} Mô hình hoạt động tốt hơn trên nhóm \textit{Out-care} (F1-score $\approx$ 0.735) so với nhóm \textit{In-care} (F1-score $\approx$ 0.612). Điều này cho thấy các đặc trưng của bệnh nhân ngoại trú rõ ràng và dễ phân tách hơn so với bệnh nhân cần nhập viện.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/decision_tree_view.PNG} 
+    \caption{Hình ảnh trực quan hóa một nhánh của Cây quyết định}
+    \label{fig:tree_viz}
+\end{figure}
+
+% -----------------------------------------------------------------
+
+\section{Bài toán gom nhóm (KNIME)}
+\label{sec:clustering}
+
+\subsection{Mục tiêu}
+Bên cạnh bài toán phân loại có giám sát, nhóm nghiên cứu thực hiện bài toán Gom nhóm (Clustering) không giám sát để khám phá các phân khúc bệnh nhân tự nhiên dựa trên đặc điểm huyết học. Mục tiêu là nhận diện các nhóm bệnh nhân có rủi ro tương đồng mà không bị thiên kiến bởi các nhãn chẩn đoán có sẵn.
+
+Quy trình thực hiện trên KNIME được thiết kế qua các bước chính sau:
+
+\begin{enumerate}
+    \item \textbf{Chuẩn hóa dữ liệu (Normalizer):} 
+    Sử dụng phương pháp \textit{Min-Max Normalization} để đưa các biến số về khoảng giá trị $[0, 1]$. Bước này là bắt buộc vì các chỉ số như \texttt{THROMBOCYTE} (đơn vị hàng trăm) và \texttt{ERYTHROCYTE} (hàng đơn vị) có độ chênh lệch thang đo quá lớn, nếu không chuẩn hóa sẽ làm sai lệch việc tính toán khoảng cách Euclid trong thuật toán.
+    
+    \item \textbf{Thuật toán Gom nhóm (k-Means):} 
+    Sử dụng node \textit{k-Means} với số lượng cụm thiết lập là $K=3$. Việc chọn $K=3$ dựa trên giả định phân loại bệnh nhân thành 3 nhóm đặc trưng: Nhóm bình thường, Nhóm có dấu hiệu nhiễm trùng và Nhóm có nguy cơ thiếu máu/người cao tuổi.
+    
+    \item \textbf{Khôi phục dữ liệu gốc (Denormalizer):} 
+    Sau khi phân cụm, node \textit{Denormalizer} được sử dụng để chuyển đổi các giá trị tâm cụm (Centroids) từ dạng chuẩn hóa [0-1] về thang đo thực tế ban đầu. Điều này giúp việc đọc hiểu và giải thích ý nghĩa y học của các cụm trở nên khả thi.
+    
+    \item \textbf{Trực quan hóa (Visualization):} 
+    Sử dụng \textit{Color Manager} và \textit{Shape Manager} để gán màu sắc (Xanh dương, Cam, Xanh lá) và hình dáng cho từng cụm, sau đó hiển thị trên biểu đồ phân tán \textit{Scatter Plot}.
+\end{enumerate}
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/workflow_gomnhom.png}
+   \caption{Quy trình xử lý bài toán Gom nhóm trên KNIME}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\subsection{Phương pháp thực hiện}
+
+\subsubsection{Phân tích tập dữ liệu, xác định các đặc trưng}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/bieudo_tuongquan.jpg}
+   \caption{Biểu đồ tương quan}
+   \label{fig:clustering_workflow}
+\end{figure}
+\begin{itemize}
+    \item Các chỉ số \textit{Haematocrit}, \textit{Haemoglobins} và \textit{Erythrocyte} tạo thành một nhóm có mối quan hệ tuyến tính rất mạnh. Điều này cho thấy sự tồn tại của một phân nhóm bệnh nhân có vấn đề liên quan đến hồng cầu, chẳng hạn như thiếu máu hoặc đa hồng cầu. Do đó, đây có thể được xem là một \textbf{cụm tự nhiên thứ nhất} trong dữ liệu.
+
+    \item Bên cạnh đó, nhóm chỉ số đặc trưng cho kích thước và hàm lượng hồng cầu gồm \textit{MCH}, \textit{MCHC} và \textit{MCV} cũng thể hiện mối tương quan mạnh với nhau. Biểu đồ phân tán cho thấy các điểm dữ liệu của nhóm này phân bố thành một ``vùng đám mây'' riêng biệt, tách khỏi nhóm chỉ số hồng cầu chính. Điều này cho thấy sự tồn tại của một \textbf{cụm tự nhiên thứ hai} trong tập dữ liệu.
+
+    \item Các biến \textit{Leucocyte} và \textit{Thrombocyte} có phân bố rất khác biệt so với các nhóm trên và không cho thấy mối tương quan đáng kể với nhóm chỉ số hồng cầu. Trong đó, \textit{Leucocyte} xuất hiện nhiều giá trị rất lớn (outlier), có thể là dấu hiệu của các bệnh lý liên quan đến viêm hoặc nhiễm trùng. Biến \textit{Thrombocyte} có độ phân tán rộng, cho thấy khả năng hình thành một nhóm riêng biệt. Do đó, nhóm này có thể được xem là \textbf{cụm tự nhiên thứ ba}, đại diện cho các tình trạng viêm, nhiễm trùng hoặc rối loạn tiểu cầu.
+
+    \item Biến \textit{AGE} không phụ thuộc đáng kể vào các đặc trưng huyết học, do đó không tạo thành một cụm riêng. Tuy nhiên, biến này vẫn có vai trò hỗ trợ trong việc phân nhóm bệnh nhân.
+
+\end{itemize}
+Từ các phân tích trên, có thể nhận định rằng dữ liệu tồn tại khoảng \textbf{ba vùng phân bố chính}. Vì vậy, số lượng cụm phù hợp để áp dụng các thuật toán phân cụm, chẳng hạn như \textit{K-means}, có thể là $K = 3$.
+\subsubsection{Chuẩn hóa dữ liệu}
+Do các biến trong tập dữ liệu có đơn vị đo và thang giá trị rất khác nhau (ví dụ: \textit{Leucocyte}, \textit{Thrombocyte}, \textit{Haemoglobins}), việc chuẩn hóa dữ liệu là bắt buộc trước khi áp dụng thuật toán \textit{K-means}. Nếu không chuẩn hóa, các biến có giá trị lớn sẽ chi phối khoảng cách Euclid và làm sai lệch kết quả phân cụm.
+
+Trong nghiên cứu này, phương pháp chuẩn hóa \textbf{Z-score} được sử dụng thông qua \texttt{StandardScaler}. Công thức chuẩn hóa được xác định như sau:
+
+\[
+z = \frac{x - \mu}{\sigma}
+\]
+
+trong đó $x$ là giá trị gốc, $\mu$ là giá trị trung bình và $\sigma$ là độ lệch chuẩn của biến.
+
+Đoạn mã Python dưới đây thực hiện chuẩn hóa Z-score cho các chỉ số huyết học và hiển thị một số dòng đầu tiên của dữ liệu sau chuẩn hóa:
+
+\begin{verbatim}
+# Chuẩn hóa z-score cho các chỉ số và hiển thị vài dòng đầu để quan sát
+try:
+    df_blood
+except NameError:
+    df_blood = pd.read_csv('data-ori.csv')
+
+numeric_cols = ['HAEMATOCRIT', 'HAEMOGLOBINS', 'ERYTHROCYTE',
+                'LEUCOCYTE', 'THROMBOCYTE', 'MCH', 'MCHC', 'MCV']
+
+scaler_z = StandardScaler()
+X_z = scaler_z.fit_transform(df_blood[numeric_cols])
+
+# Tạo dataframe đã chuẩn hóa
+df_z = pd.DataFrame(X_z, columns=[c + '_z' for c in numeric_cols])
+print(df_z.head())
+\end{verbatim}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/kq_chuanhoa.png}
+   \caption{Kết quả chuẩn hóa Z-score}
+   \label{fig:clustering_workflow}
+\end{figure}
+Sau z-score, các biến đều có: Mean xấp xỉ 0, Standard deviation xấp xỉ 1. Điều này đảm bảo các biến cùng “thang đo”, phù hợp cho các thuật toán gom cụm như KMeans.
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/matran-tuongquan.png}
+   \caption{Biểu đồ ma trận tương quan (z-score)}
+   \label{fig:clustering_workflow}
+\end{figure}
+Dựa trên biểu đồ \textit{heatmap} ma trận tương quan, có thể rút ra một số nhận xét định tính như sau:
+
+\begin{itemize}
+    \item \textbf{Nhóm tương quan mạnh nhất (Cụm 1):} 
+    \textit{HAEMATOCRIT}, \textit{HAEMOGLOBINS}, \textit{ERYTHROCYTE}
+    \begin{itemize}
+        \item Ba biến này tạo thành một ``khối đỏ đậm'' rõ rệt trên heatmap.
+        \item Hệ số tương quan dao động trong khoảng $0.8$--$0.95$, thể hiện mối quan hệ tuyến tính rất mạnh.
+        \item Nhóm này đại diện cho cụm bệnh nhân có các bất thường liên quan đến số lượng hồng cầu (RBC), chẳng hạn như thiếu máu hoặc đa hồng cầu.
+    \end{itemize}
+
+    \item \textbf{Nhóm tương quan mạnh thứ hai (Cụm 2):} 
+    \textit{MCH}, \textit{MCHC}, \textit{MCV}
+    \begin{itemize}
+        \item Các biến trong nhóm này có mức tương quan từ trung bình đến mạnh, với hệ số tương quan trong khoảng $0.6$--$0.9$.
+        \item Heatmap cho thấy nhóm này hình thành một vùng tương quan riêng biệt, tách khỏi nhóm hồng cầu chính.
+    \end{itemize}
+
+    \item \textbf{Nhóm phân bố độc lập (Cụm 3):} 
+    \textit{LEUCOCYTE}, \textit{THROMBOCYTE}
+    \begin{itemize}
+        \item Hai biến này không cho thấy mối tương quan mạnh với nhóm hồng cầu hoặc nhóm MCH/MCV.
+        \item Phân bố giá trị của chúng tạo nên các vùng riêng biệt trong không gian đặc trưng.
+    \end{itemize}
+\end{itemize}
+\subsubsection{Kết hợp Pairplot + Heatmap → Xác định số cụm K hợp lý}
+\begin{itemize}
+    \item Có 3 nhóm tương quan nổi bật trong heatmap.
+    \item Có 3 vùng phân phối điểm rõ rệt trong pairplot.
+    \item 3 nhóm bệnh học điển hình trong xét nghiệm máu:
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/3nhombenh.png}
+   \caption{Kết quả phân cụm}
+   \label{fig:clustering_workflow}
+\end{figure}
+Từ kết quả cho thấy k = 3 phù hợp nhất về mặt sinh học và dữ liệu học.
+
+\subsubsection{Xây dựng mô hình}
+\textbf{Bước 1. CSV Reader – Đọc dữ liệu đầu vào}
+
+\textbf{Mục đích:}
+\begin{itemize}
+    \item Đọc tập dữ liệu xét nghiệm máu từ file \texttt{data\_ori.csv}.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Thu được bảng dữ liệu thô chứa các thuộc tính:
+    \begin{itemize}
+        \item \textit{HAEMATOCRIT}, \textit{HAEMOGLOBINS}, \textit{ERYTHROCYTE}
+        \item \textit{LEUCOCYTE}, \textit{THROMBOCYTE}
+        \item \textit{MCH}, \textit{MCHC}, \textit{MCV}, \textit{AGE}
+        \item \textit{SEX}, \textit{SOURCE}
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/bang_dulieu_dauvao.png}
+   \caption{Dữ liệu đầu vào từ CSV}
+   \label{fig:clustering_workflow}
+\end{figure}
+\textbf{Bước 2. Column Filter – Lọc thuộc tính}
+
+\textbf{Cấu hình:}
+\begin{itemize}
+    \item \textbf{Exclude:} \textit{SEX}, \textit{SOURCE} (các biến định tính, không phù hợp cho thuật toán \textit{K-means}).
+\end{itemize}
+
+\textbf{Mục đích:}
+\begin{itemize}
+    \item Chỉ giữ lại các biến số (\textit{numerical features}) để phục vụ cho bài toán phân cụm.
+    \item Tránh làm sai lệch khoảng cách Euclidean trong quá trình tính toán.
+\end{itemize}
+
+\textbf{Ý nghĩa:}
+\begin{itemize}
+    \item Thuật toán \textit{K-means} chỉ hoạt động hiệu quả với dữ liệu số liên tục.
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/dulieu_loc.png}
+   \caption{Dữ liệu đã lọc}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\textbf{Bước 3. Missing Value – Xử lý giá trị thiếu}
+
+\textbf{Chức năng:}
+\begin{itemize}
+    \item Làm sạch dữ liệu bằng một trong các cách sau:
+    \begin{itemize}
+        \item Thay thế các giá trị thiếu (\textit{missing value}) bằng giá trị trung bình (\textit{mean}) hoặc trung vị (\textit{median}).
+        \item Loại bỏ các dòng dữ liệu chứa giá trị thiếu.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Mục đích:}
+\begin{itemize}
+    \item Tránh phát sinh lỗi trong quá trình chuẩn hóa dữ liệu và huấn luyện mô hình.
+    \item Đảm bảo mỗi bản ghi có đầy đủ các thuộc tính cần thiết.
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/xuly_giatri.png}
+   \caption{Xử lý giá trị}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\textbf{Bước 4. Normalizer (Z-score) – Chuẩn hóa dữ liệu}
+
+\textbf{Cấu hình:}
+\begin{itemize}
+    \item Method:Z-score normalization
+\[
+z = \frac{x - \mu}{\sigma}
+\]
+\end{itemize}
+\begin{itemize}
+    \item Áp dụng phương pháp chuẩn hóa \textbf{Z-score} cho toàn bộ các biến số.
+\end{itemize}
+
+\textbf{Mục đích (rất quan trọng):}
+\begin{itemize}
+    \item Đưa tất cả các biến về cùng một thang đo với giá trị trung bình bằng $0$ và độ lệch chuẩn bằng $1$.
+    \item Tránh việc biến \textit{THROMBOCYTE} (có giá trị tuyệt đối lớn) chi phối toàn bộ mô hình phân cụm.
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Thu được tập dữ liệu đã được chuẩn hóa, đóng vai trò là đầu vào chính cho thuật toán \textit{K-means}.
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/chuanhoa_dulieu.png}
+   \caption{Chuẩn hóa dữ liệu}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\textbf{Bước 5. Partitioning – Chia dữ liệu (8:2)}
+
+\textbf{Cấu hình:}
+\begin{itemize}
+    \item $80\%$ dữ liệu dùng cho tập huấn luyện (\textit{Train}).
+    \item $20\%$ dữ liệu dùng cho tập kiểm tra (\textit{Test}).
+\end{itemize}
+
+\textbf{Mục đích học thuật:}
+\begin{itemize}
+    \item Mặc dù đây là bài toán phân cụm (\textit{unsupervised learning}), bước chia dữ liệu vẫn có ý nghĩa quan trọng:
+    \begin{itemize}
+        \item Kiểm tra tính ổn định và khả năng tái lập của các cụm thu được.
+        \item Mô phỏng quy trình thực nghiệm chuẩn trong nghiên cứu khoa học dữ liệu.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Bước 6. K-means – Huấn luyện mô hình gom cụm}
+
+\textbf{Cấu hình chính:}
+\begin{itemize}
+    \item \textbf{Number of clusters ($K$):} $3$.
+    \item \textbf{Distance:} Euclidean.
+    \item \textbf{Initialization:} \textit{k-means++}.
+\end{itemize}
+
+\textbf{Mục đích:}
+\begin{itemize}
+    \item Tìm $3$ centroid sao cho tổng bình phương khoảng cách trong cụm (\textit{Sum of Squared Errors -- SSE}) là nhỏ nhất.
+\end{itemize}
+
+\textbf{Đầu ra:}
+\begin{itemize}
+    \item Tọa độ centroid của từng cụm (ở dạng giá trị đã chuẩn hóa Z-score).
+    \item Mô hình \textit{K-means} đã được huấn luyện.
+\end{itemize}
+
+\textbf{Cơ sở lựa chọn $K = 3$:}
+\begin{itemize}
+    \item Phân tích trực quan từ \textit{pairplot}.
+    \item Phân tích ma trận tương quan thông qua \textit{heatmap}.
+    \item Diễn giải và ý nghĩa y học của các nhóm chỉ số huyết học.
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/huanluyen_mohinh_gomcum.png}
+   \caption{Huấn luyện mô hình}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\textbf{Bước 7. Cluster Assigner – Gán nhãn phân cụm cho tập kiểm tra}
+
+\textbf{Chức năng:}
+\begin{itemize}
+    \item Sử dụng mô hình \textit{K-means} đã được huấn luyện ở bước trước.
+    \item Gán mỗi bản ghi trong tập kiểm tra vào một trong các cụm:
+    \begin{itemize}
+        \item \textit{cluster\_0}
+        \item \textit{cluster\_1}
+        \item \textit{cluster\_2}
+    \end{itemize}
+\end{itemize}
+
+\textbf{Kết quả:}
+\begin{itemize}
+    \item Sinh thêm cột \textit{Cluster} trong bảng dữ liệu để biểu diễn nhãn phân cụm của mỗi bản ghi.
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/dudoan_gannhan.png}
+   \caption{Dự đoán gán nhãn cụm}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\textbf{Bước 8. Denormalizer – Trả dữ liệu về thang đo gốc}
+
+\textbf{Mục đích:}
+\begin{itemize}
+    \item Chuyển các giá trị dữ liệu từ dạng chuẩn hóa Z-score trở về thang đo ban đầu.
+    \item Giúp việc diễn giải kết quả theo ngữ cảnh y học trở nên trực quan và dễ hiểu hơn (ví dụ: giá trị thực của \textit{Haemoglobins}, \textit{MCV}, \textit{MCH}).
+\end{itemize}
+
+\textbf{Ý nghĩa:}
+\begin{itemize}
+    \item Bước này đóng vai trò rất quan trọng trong việc trình bày và phân tích kết quả cho các báo cáo lâm sàng.
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/dulieu_thangdogoc.png}
+   \caption{Dữ liệu thang đo gốc}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\textbf{Bước 9. Color Manager – Gán màu theo cụm}
+
+\textbf{Chức năng:}
+\begin{itemize}
+    \item Gán màu sắc riêng cho từng cụm dữ liệu nhằm phân biệt trực quan:
+    \begin{itemize}
+        \item \textit{Cluster 0} $\rightarrow$ màu xanh.
+        \item \textit{Cluster 1} $\rightarrow$ màu đỏ.
+        \item \textit{Cluster 2} $\rightarrow$ màu cam (ví dụ).
+    \end{itemize}
+\end{itemize}
+
+\textbf{Mục đích:}
+\begin{itemize}
+    \item Hỗ trợ trực quan hóa kết quả phân cụm, giúp việc phân tích và diễn giải kết quả trở nên dễ dàng hơn.
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/ganmau_theocum.png}
+   \caption{Gán màu theo cụm}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\textbf{Bước 10. Shape Manager – Gán hình dạng theo cụm}
+
+\textbf{Chức năng:}
+\begin{itemize}
+    \item Gán hình dạng hiển thị khác nhau cho từng cụm dữ liệu, chẳng hạn như:
+    \begin{itemize}
+        \item \textit{Cluster 0}: hình tròn (\textit{circle}).
+        \item \textit{Cluster 1}: hình vuông (\textit{square}).
+        \item \textit{Cluster 2}: hình tam giác (\textit{triangle}).
+    \end{itemize}
+\end{itemize}
+
+\textbf{Mục đích:}
+\begin{itemize}
+    \item Giúp phân biệt các cụm ngay cả khi biểu đồ được in ở dạng đen--trắng.
+    \item Phù hợp với các tiêu chuẩn trình bày đồ thị trong nghiên cứu khoa học.
+\end{itemize}
+
+\textbf{Bước 11. Scatter Plot – Trực quan hóa kết quả}
+
+\textbf{Đầu ra cuối cùng:}
+\begin{itemize}
+    \item Biểu đồ phân tán (\textit{scatter plot}) dạng 2D hoặc 3D:
+    \begin{itemize}
+        \item Trục $X$, $Y$ (và $Z$ nếu có): các chỉ số huyết học.
+        \item Màu sắc và hình dạng của các điểm dữ liệu đại diện cho từng cụm.
+    \end{itemize}
+\end{itemize}
+
+\textbf{Ý nghĩa:}
+\begin{itemize}
+    \item Kiểm tra trực quan chất lượng kết quả phân cụm:
+    \begin{itemize}
+        \item Các cụm có được tách biệt rõ ràng hay không.
+        \item Mức độ chồng lấn (\textit{overlap}) giữa các cụm.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/trucquan_ketqua1.png}
+        \label{fig:clustering_workflow_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/trucquan_ketqua2.png}
+        \label{fig:clustering_workflow_2}
+    \end{subfigure}
+    \caption{Trực quan hóa kết quả phân cụm}
+    \label{fig:clustering_workflow}
+\end{figure}
+
+
+\textbf{Bước 12. Linear Correlation + Heatmap (Nhánh phân tích song song)}
+
+\textbf{Chức năng:}
+\begin{itemize}
+    \item Tính toán ma trận tương quan tuyến tính Pearson giữa các biến số.
+    \item Trực quan hóa ma trận tương quan thông qua biểu đồ \textit{heatmap} trên dữ liệu đã được chuẩn hóa Z-score.
+\end{itemize}
+
+\textbf{Mục đích:}
+\begin{itemize}
+    \item Phân tích cấu trúc và mối quan hệ giữa các đặc trưng trước và sau khi thực hiện phân cụm.
+    \item Củng cố cơ sở khoa học cho việc lựa chọn số cụm $K = 3$ trong mô hình \textit{K-means}.
+\end{itemize}
+\begin{figure}[H]
+   \centering
+   \includegraphics[width=1\textwidth]{images/matran_tuongquan_person.png}
+   \caption{Ma trận tương quan tuyến tính Pearson}
+   \label{fig:clustering_workflow}
+\end{figure}
+
+\subsection{Kết quả Phân cụm và Phân tích đặc trưng}
+Thuật toán k-Means đã chia tập dữ liệu 4412 bệnh nhân thành 3 nhóm (Cluster) riêng biệt. Dưới đây là bảng thống kê các giá trị trung bình (Centroids) của các chỉ số quan trọng tại mỗi cụm:
+
+\begin{table}[H]
+\centering
+\caption{Đặc điểm trung bình của 3 Nhóm bệnh nhân (Centroids)}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Đặc trưng (Feature)} & \textbf{Cluster 0 (Xanh dương)} & \textbf{Cluster 1 (Cam)} & \textbf{Cluster 2 (Xanh lá)} \\ \hline
+\textit{Số lượng mẫu} & 1177 (Chiếm 26.7\%) & 1391 (Chiếm 31.5\%) & 1844 (Chiếm 41.8\%) \\ \hline
+\textbf{Haemoglobins (g/dL)} & \textbf{10.9 (Thấp)} & 13.4 & \textbf{14.6 (Bình thường)} \\ \hline
+\textbf{Haematocrit (\%)} & \textbf{32.8 (Thấp)} & 39.9 & 43.8 \\ \hline
+\textbf{Leucocyte ($10^3/\mu L$)} & 7.2 & \textbf{12.0 (Cao)} & 7.2 \\ \hline
+\textbf{Thrombocyte ($10^3/\mu L$)} & 232.0 & \textbf{293.7 (Cao)} & 246.5 \\ \hline
+\textbf{Tuổi trung bình (Age)} & \textbf{49.6 (Cao nhất)} & 48.0 & 43.6 (Trẻ nhất) \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+% --- CHỖ NÀY BẠN CHÈN HÌNH BẢNG KẾT QUẢ TỪ KNIME (Cái hình bảng số liệu trong file word) ---
+% \begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.8\textwidth]{images/table_cluster_centers.png}
+%    \caption{Bảng giá trị trung tâm cụm (Cluster Centers) trích xuất từ KNIME}
+%    \label{fig:cluster_table}
+% \end{figure}
+
+\subsection{Thảo luận và Định danh nhóm (Cluster Profiling)}
+Dựa trên các chỉ số trung bình ở bảng trên, nhóm nghiên cứu tiến hành gán nhãn và đưa ra khuyến nghị lâm sàng cho từng nhóm như sau:
+
+\begin{itemize}
+    \item \textbf{Cluster 0 (Màu Xanh dương) - Nhóm Nguy cơ Thiếu máu/Người cao tuổi:}
+    \begin{itemize}
+        \item \textit{Đặc điểm:} Đây là nhóm có độ tuổi trung bình cao nhất ($\approx$ 50 tuổi). Các chỉ số dòng hồng cầu như \texttt{HAEMOGLOBINS} (10.9) và \texttt{HAEMATOCRIT} (32.8) đều ở mức thấp nhất, dưới ngưỡng bình thường.
+        \item \textit{Nhận định:} Bệnh nhân trong nhóm này có dấu hiệu rõ rệt của bệnh thiếu máu mãn tính, thường gặp ở người lớn tuổi.
+        \item \textit{Khuyến nghị:} Cần tư vấn dinh dưỡng, bổ sung sắt hoặc kiểm tra các bệnh lý nền liên quan đến người già.
+    \end{itemize}
+    
+    \item \textbf{Cluster 1 (Màu Cam) - Nhóm Nguy cơ Nhiễm trùng/Viêm (Infection Risk):}
+    \begin{itemize}
+        \item \textit{Đặc điểm:} Nhóm này nổi bật với chỉ số Bạch cầu (\texttt{LEUCOCYTE}) tăng cao nhất (12.0), vượt ngưỡng bình thường ($4-10$). Đồng thời, chỉ số Tiểu cầu (\texttt{THROMBOCYTE}) cũng cao nhất (293.7).
+        \item \textit{Nhận định:} Bạch cầu tăng cao là dấu hiệu điển hình của phản ứng viêm hoặc nhiễm trùng cấp tính.
+        \item \textit{Khuyến nghị:} Đây là nhóm rủi ro cao cần được ưu tiên sàng lọc kỹ. Khả năng cao nhóm này thuộc diện cần nhập viện (In-care) để điều trị kháng sinh hoặc theo dõi viêm.
+    \end{itemize}
+    
+    \item \textbf{Cluster 2 (Màu Xanh lá) - Nhóm Sức khỏe Bình thường (Healthy):}
+    \begin{itemize}
+        \item \textit{Đặc điểm:} Chiếm số lượng đông nhất (1844 mẫu). Các chỉ số đều nằm trong giới hạn an toàn: \texttt{HAEMOGLOBINS} cao (14.6), Bạch cầu ổn định (7.2). Độ tuổi trung bình trẻ nhất (43.6 tuổi).
+        \item \textit{Nhận định:} Đây là nhóm bệnh nhân có sức khỏe huyết học ổn định nhất.
+        \item \textit{Khuyến nghị:} Có thể chỉ định điều trị ngoại trú (Out-care) hoặc tái khám định kỳ, giảm tải áp lực cho khu vực nội trú.
+    \end{itemize}
+\end{itemize}
+
+% --- CHỖ NÀY BẠN CHÈN HÌNH SCATTER PLOT (Cái hình biểu đồ phân tán 3 màu trong file word) ---
+% \begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.9\textwidth]{images/scatter_plot_clustering.png}
+%    \caption{Biểu đồ phân tán (Scatter Plot) thể hiện 3 cụm bệnh nhân với đặc trưng riêng biệt}
+%    \label{fig:scatter_plot}
+% \end{figure}
+
+\subsection{Kết luận}
+Kết quả thực nghiệm cho thấy thuật toán k-Means đã phân tách thành công dữ liệu thành các nhóm có ý nghĩa y học rõ rệt. Việc xác định được nhóm "Cluster 1" (Nguy cơ nhiễm trùng) và "Cluster 0" (Thiếu máu người già) giúp bệnh viện có cơ sở để phân luồng khám bệnh tự động, tối ưu hóa nguồn lực y tế ngay từ bước tiếp nhận hồ sơ.
+ 
+% -----------------------------------------------------------------
+
+\section{Trực quan hóa xu hướng (Looker Studio)}
+\label{sec:visualization}
+
+
+\subsection{Mục tiêu trực quan hóa}
+Mục tiêu của Dashboard là theo dõi \textbf{xu hướng biến động các chỉ số huyết học quan trọng} của bệnh nhân theo thời gian, từ đó hỗ trợ bác sĩ và nhà quản lý y tế trong việc đánh giá tình trạng sức khỏe tổng thể và phát hiện sớm các dấu hiệu bất thường.
+
+Ba chỉ số xét nghiệm chính được lựa chọn gồm:
+\begin{itemize}
+    \item \textbf{HAEMATOCRIT (HCT)} – Tỷ lệ thể tích hồng cầu trong máu.
+    \item \textbf{HAEMOGLOBINS (HGB)} – Nồng độ huyết sắc tố.
+    \item \textbf{ERYTHROCYTE (RBC)} – Số lượng hồng cầu.
+\end{itemize}
+
+Các chỉ số này có mối liên hệ chặt chẽ với tình trạng thiếu máu và sức khỏe hệ tuần hoàn.
+
+\subsection{Chuẩn bị và cấu hình dữ liệu}
+Tập dữ liệu ban đầu chỉ bao gồm các kết quả xét nghiệm tại từng thời điểm khám. Để phục vụ phân tích xu hướng, nhóm nghiên cứu đã thực hiện bước \textbf{làm giàu dữ liệu} bằng cách bổ sung trường thời gian \texttt{Admission\_Date}, mô phỏng quá trình tiếp nhận bệnh nhân trong năm 2024.
+
+Trong Looker Studio, các trường được cấu hình như sau:
+\begin{itemize}
+    \item \texttt{Admission\_Date}: Kiểu \textit{Date}, sử dụng làm trục thời gian.
+    \item \texttt{HAEMATOCRIT}, \texttt{HAEMOGLOBINS}, \texttt{ERYTHROCYTE}: Kiểu \textit{Number}, phép tổng hợp \textit{Average}.
+    \item \texttt{SOURCE}: Kiểu \textit{Text}, phân loại bệnh nhân nội trú và ngoại trú.
+\end{itemize}
+
+\subsection{Thiết lập Biểu đồ đường theo dõi xu hướng}
+Biểu đồ đường (Line Chart) được sử dụng để trực quan hóa sự thay đổi của các chỉ số xét nghiệm theo thời gian.
+
+\begin{itemize}
+    \item \textbf{Loại biểu đồ:} Time Series Chart.
+    \item \textbf{Dimension (Trục hoành):} \texttt{Admission\_Date}.
+    \item \textbf{Metrics (Trục tung):}
+    \begin{itemize}
+        \item Giá trị trung bình \texttt{HAEMATOCRIT}.
+        \item Giá trị trung bình \texttt{HAEMOGLOBINS}.
+        \item Giá trị trung bình \texttt{ERYTHROCYTE}.
+    \end{itemize}
+\end{itemize}
+
+Để đảm bảo khả năng quan sát rõ ràng, biểu đồ sử dụng \textbf{hai trục tung} nhằm phân tách các chỉ số có đơn vị và biên độ khác nhau.
+
+\subsection{Kết quả trực quan hóa}
+Hình~\ref{fig:hematology_trend} thể hiện xu hướng biến động của ba chỉ số huyết học trong suốt giai đoạn quan sát.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/dashboard_looker.png}
+    \caption{Biểu đồ xu hướng theo thời gian}
+    \label{fig:hematology_trend}
+\end{figure}
+Dashboard trực quan được xây dựng và triển khai trên nền tảng Google Looker Studio:
+\url{https://lookerstudio.google.com/u/0/reporting/e14956d8-ab2a-4b88-8f59-5b426b960cc5/page/6ZmiF/edit}
+
+
+Kết quả cho thấy:
+\begin{itemize}
+    \item \textbf{HAEMATOCRIT} có xu hướng giảm nhẹ theo thời gian và duy trì quanh giá trị trung bình khoảng \textbf{38,6\%}.
+    \item \textbf{HAEMOGLOBINS} tương đối ổn định, dao động quanh mức trung bình \textbf{56.216,5}.
+    \item \textbf{ERYTHROCYTE} biến động nhiều hơn so với hai chỉ số còn lại, với giá trị trung bình khoảng \textbf{4,57}, phản ánh sự khác biệt cá nhân giữa các bệnh nhân.
+\end{itemize}
+
+\subsection{Phân tích và ý nghĩa thực tiễn}
+Việc theo dõi đồng thời ba chỉ số huyết học cho phép:
+\begin{itemize}
+    \item Phát hiện sớm các dấu hiệu \textbf{thiếu máu} hoặc rối loạn huyết học.
+    \item Đánh giá xu hướng suy giảm hoặc ổn định sức khỏe của bệnh nhân theo thời gian.
+    \item Hỗ trợ bác sĩ trong việc đưa ra quyết định điều trị và theo dõi hiệu quả can thiệp y tế.
+\end{itemize}
+
+Dashboard Looker Studio đóng vai trò như một công cụ hỗ trợ ra quyết định, giúp chuyển đổi dữ liệu xét nghiệm thô thành thông tin trực quan, dễ hiểu và có giá trị ứng dụng cao trong quản lý y tế.
+
+%-----------------------------------------------------------------
+
+\section{Diễn giải Quy tắc Phân loại từ Mô hình Cây Quyết định}
+\label{sec:decision_tree_interpretation}
+
+Trong phần này, kết quả từ mô hình Cây quyết định (Decision Tree) được xây dựng trên KNIME sẽ được phân tích sâu. Việc diễn giải được thực hiện thông qua việc quan sát cấu trúc cây trực quan (Decision Tree View) và trích xuất bộ quy tắc phân loại (Rule set) từ node \textit{Decision Tree to Ruleset}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/decision_tree_view.PNG} 
+    \caption{Cấu trúc Cây quyết định hiển thị trên KNIME (Nút gốc là Thrombocyte)}
+    \label{fig:decision_tree_view}
+\end{figure}
+
+\subsection{Phân tích cấu trúc Cây quyết định}
+
+Dựa trên biểu đồ trực quan hóa từ KNIME (Hình \ref{fig:decision_tree_view}), chúng ta phân tích dòng chảy quyết định của mô hình như sau:
+
+\begin{itemize}
+    \item \textbf{Nút gốc (Root Node) - Yếu tố quan trọng nhất:} 
+    Mô hình đã chọn thuộc tính \textbf{\texttt{THROMBOCYTE}} (Tiểu cầu) làm nút gốc để phân chia dữ liệu đầu tiên. Điều này chỉ ra rằng số lượng tiểu cầu là chỉ số sinh học có khả năng phân loại cao nhất (Information Gain lớn nhất) để quyết định việc bệnh nhân cần nhập viện hay không.
+    
+    \item \textbf{Các nút phân tách cấp 2 (Second-level Nodes):}
+    \begin{itemize}
+        \item Nhánh bên trái (Tiểu cầu thấp/bình thường): Tiếp tục được phân tách dựa trên chỉ số \textbf{\texttt{HAEMATOCRIT}} (Dung tích hồng cầu).
+        \item Nhánh bên phải (Tiểu cầu cao): Tiếp tục được kiểm tra dựa trên chỉ số \textbf{\texttt{LEUCOCYTE}} (Bạch cầu) để xác định tình trạng nhiễm trùng.
+    \end{itemize}
+    
+    \item \textbf{Độ sâu của cây:} 
+    Với thiết lập \textit{Max depth = 10}, cây đã phát triển đủ sâu để nắm bắt các quy tắc phức tạp, tuy nhiên cơ chế cắt tỉa (Pruning MDL) đã giúp loại bỏ các nhánh con không cần thiết, giúp mô hình giữ được sự tổng quát.
+\end{itemize}
+
+\subsection{Diễn giải bộ quy tắc phân loại (Classification Rules)}
+
+Từ cấu trúc cây, chúng ta trích xuất được các quy tắc \textit{NẾU - THÌ} (IF - THEN) cụ thể. Bảng \ref{tab:extracted_rules} dưới đây trình bày các quy tắc có độ tin cậy (Confidence) cao nhất và mang ý nghĩa y học rõ rệt nhất.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Các quy tắc phân loại điển hình trích xuất từ mô hình}
+    \label{tab:extracted_rules}
+    \begin{tabularx}{\textwidth}{@{} c X c c @{}}
+        \toprule
+        \textbf{ID} & \textbf{Điều kiện (Antecedent)} & \textbf{Dự đoán} & \textbf{Độ tin cậy} \\
+        \midrule
+        
+        R1 & Nếu (\textbf{THROMBOCYTE} $\le$ 456.5) VÀ (\textbf{HAEMATOCRIT} $>$ 43.85) & \textbf{Out} & 98.6\% \\
+        \addlinespace
+        
+        R2 & Nếu (\textbf{THROMBOCYTE} $>$ 456.5) VÀ (\textbf{LEUCOCYTE} $>$ 11.25) & \textbf{In} & 91.5\% \\
+        \addlinespace
+        
+        R3 & Nếu (\textbf{HAEMOGLOBINS} $\le$ 10.5) VÀ (\textbf{AGE} $> 60$) & \textbf{In} & 89.2\% \\
+        \addlinespace
+        
+        R4 & Các trường hợp còn lại không thỏa mãn các nhánh chính & \textbf{Out} & 65.4\% \\
+        
+        \bottomrule
+    \end{tabularx}
+    \medskip
+    \footnotesize{\textit{Nguồn: Trích xuất từ node Decision Tree to Ruleset.}}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/mat_do_tuoi.jpg} 
+    \caption{Biểu đồ mật độ tuổi}
+    \label{fig:simple_rule}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/phanbo_tuoi_benh_nhan.jpg} 
+    \caption{Biểu đồ phân bố tuổi theo nhóm bệnh nhân}
+    \label{fig:simple_rule}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/phanbo_tuoi_theo_nhom.jpg} 
+    \caption{Biểu đồ phân bố tuổi theo nhóm}
+    \label{fig:simple_rule}
+\end{figure}
+
+\subsection{Thảo luận ý nghĩa Y học từ Quy tắc}
+
+Kết quả từ Bảng \ref{tab:extracted_rules} hoàn toàn phù hợp với các kiến thức lâm sàng:
+
+\begin{enumerate}
+    \item \textbf{Quy tắc R1 (Nhóm khỏe mạnh):} Những bệnh nhân có tiểu cầu và dung tích hồng cầu ở mức bình thường (hoặc cao nhẹ) có xác suất rất cao (98.6\%) là bệnh nhân ngoại trú (\textit{Out-care}).
+    \item \textbf{Quy tắc R2 (Nhóm nhiễm trùng/viêm cấp):} Sự kết hợp giữa Tiểu cầu tăng cao ($>456.5$) và Bạch cầu tăng ($>11.25$) là dấu hiệu điển hình của phản ứng viêm hoặc nhiễm trùng cấp tính. Mô hình dự báo chính xác nhóm này cần nhập viện (\textit{In-care}) với độ tin cậy 91.5\%.
+    \item \textbf{Quy tắc R3 (Nhóm người cao tuổi suy nhược):} Người trên 60 tuổi có chỉ số Huyết sắc tố thấp ($\le 10.5$) thường rơi vào tình trạng thiếu máu cần điều trị nội trú.
+\end{enumerate}
+
+Điều này chứng minh mô hình Cây quyết định không chỉ đạt độ chính xác thống kê mà còn nắm bắt được \textbf{logic y khoa}, giúp các bác sĩ có thể tin tưởng và sử dụng như một công cụ tham khảo (Explainable AI).
+
+
+% ----------------------------------------------------------------
+
+\section{Mô hình Hồi quy (KNIME)}
+\label{sec:regression_model}
+
+\subsection{Mô tả tập dữ liệu (Dataset Description)}
+
+Tập dữ liệu được sử dụng là \textbf{Insurance Dataset}, một bộ dữ liệu tiêu chuẩn thường được sử dụng trong các bài toán hồi quy nhằm dự đoán chi phí y tế.
+
+Mục tiêu chính của bài toán là xây dựng mô hình dự báo biến mục tiêu \textbf{charges} (chi phí bảo hiểm y tế cá nhân) dựa trên các biến độc lập về nhân khẩu học và hành vi sức khỏe.
+
+\subsubsection{Các thuộc tính trong tập dữ liệu}
+Tập dữ liệu bao gồm các thuộc tính sau:
+
+\begin{itemize}
+    \item \textbf{age} (Tuổi): Số liên tục.
+    \item \textbf{bmi} (Body Mass Index - Chỉ số khối cơ thể): Biến định lượng liên tục.
+    \item \textbf{children} (Số con): Số, rời rạc (0, 1, 2, ...).
+    \item \textbf{sex} (Giới tính): Biến phân loại. Giá trị: \textit{male, female}.
+    \item \textbf{smoker} (Hút thuốc): Biến phân loại. Giá trị: \textit{yes, no}. 
+    \item \textbf{region} (Khu vực): Biến phân loại. Giá trị: \textit{northeast, northwest, southeast, southwest}.
+\end{itemize}
+
+\subsubsection{Tóm tắt thống kê chung}
+Để có cái nhìn tổng quan về phân phối dữ liệu, bảng thống kê mô tả đối với các biến định lượng (Numeric) được trình bày dưới đây. Các giá trị này được trích xuất từ node \textit{Statistics} trong KNIME.
+
+\begin{table}[H]
+\centering
+\caption{Thống kê mô tả các biến trong tập dữ liệu}
+\label{tab:descriptive_statistics}
+\begin{tabular}{lccccccc}
+\toprule
+ & \textbf{age} & \textbf{sex} & \textbf{bmi} & \textbf{children} & \textbf{smoker} & \textbf{region} & \textbf{charges} \\
+\midrule
+count  & 1338.0 & 1338 & 1338.0 & 1338.0 & 1338 & 1338 & 1338.0 \\
+unique &        & 2    &        &        & 2    & 4    &        \\
+top    &        & male &        &        & no   & southeast &        \\
+freq   &        & 676  &        &        & 1064 & 364 &        \\
+mean   & 39.207 &      & 30.664 & 1.095  &      &      & 13270.423 \\
+std    & 14.050 &      & 6.098  & 1.205  &      &      & 12110.011 \\
+min    & 18.0   &      & 15.96  & 0.0    &      &      & 1121.874 \\
+25\%   & 27.0   &      & 26.296 & 0.0    &      &      & 4740.287 \\
+50\%   & 39.0   &      & 30.4   & 1.0    &      &      & 9382.033 \\
+75\%   & 51.0   &      & 34.694 & 2.0    &      &      & 16639.913 \\
+max    & 64.0   &      & 53.13  & 5.0    &      &      & 63770.428 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\textbf{Nhận xét sơ bộ:}
+\begin{itemize}
+    \item Biến mục tiêu \texttt{charges} có độ lệch chuẩn rất lớn ($12110.01$) so với giá trị trung bình ($13270.42$), cho thấy sự chênh lệch đáng kể về chi phí y tế giữa các cá nhân. Điều này có thể chịu ảnh hưởng mạnh bởi các yếu tố như tình trạng hút thuốc, chỉ số BMI cao hoặc bệnh lý nền.
+    
+    \item Độ tuổi (\texttt{age}) của các cá nhân phân bố tương đối đều trong khoảng từ $18$ đến $64$ tuổi, với giá trị trung vị là $39$, cho thấy tập dữ liệu bao phủ đầy đủ các nhóm tuổi trưởng thành.
+    
+    \item Chỉ số BMI có giá trị trung bình là $30.66$, cao hơn ngưỡng BMI bình thường, cho thấy tỷ lệ thừa cân và béo phì trong tập dữ liệu là đáng kể, đây là yếu tố quan trọng ảnh hưởng đến chi phí y tế.
+    
+    \item Số con (\texttt{children}) có giá trị trung bình thấp ($1.095$) và trung vị bằng $1$, phản ánh đa số cá nhân có ít hoặc không có con phụ thuộc.
+    
+    \item Các biến phân loại như \texttt{sex}, \texttt{smoker} và \texttt{region} có phân bố không đồng đều, đặc biệt là biến \texttt{smoker} với số lượng người không hút thuốc chiếm ưu thế. Điều này gợi ý khả năng biến \texttt{smoker} sẽ đóng vai trò quan trọng trong mô hình dự báo chi phí.
+\end{itemize}
+
+\subsection{Quan hệ giữa biến đầu vào và biến mục tiêu \textit{charges}}
+
+\subsubsection{Biến số (Numeric variables)}
+
+\textbf{Biểu đồ quan hệ cặp giữa các biến số và \textit{charges}:}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/bieudo_quanhe_cacbienso.png}
+    \caption{Biểu đồ pairplot thể hiện mối quan hệ giữa các biến số và \textit{charges}}
+    \label{fig:pairplot_numeric}
+\end{figure}
+
+Từ biểu đồ \textit{pairplot}, có thể rút ra một số nhận xét như sau:
+\begin{itemize}
+    \item \textbf{age và charges}: Có xu hướng tăng rõ rệt; người lớn tuổi thường có chi phí bảo hiểm y tế cao hơn.
+    \item \textbf{bmi và charges}: Có xu hướng tăng, tuy nhiên mối quan hệ không tuyến tính hoàn hảo, đặc biệt rõ rệt ở nhóm người hút thuốc.
+    \item \textbf{children và charges}: Ảnh hưởng ở mức nhẹ, không mạnh bằng các biến như \textit{smoker} hay \textit{age}.
+\end{itemize}
+
+\subsubsection{Biến phân loại (Categorical variables)}
+
+\textbf{Boxplot giữa \textit{charges} và các biến phân loại:}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/boxplot_charges.png}
+    \caption{Boxplot thể hiện phân phối \textit{charges} theo các biến phân loại}
+    \label{fig:boxplot_categorical}
+\end{figure}
+
+\textbf{Nhận xét quan trọng:}
+\begin{itemize}
+    \item \textbf{smoker}: Sự khác biệt rất rõ ràng. Người hút thuốc có chi phí bảo hiểm cao hơn nhiều lần so với người không hút thuốc. Đây là đặc trưng cực kỳ quan trọng trong mô hình dự báo.
+    \item \textbf{sex}: Sự khác biệt không quá rõ rệt giữa hai nhóm giới tính.
+    \item \textbf{region}: Có sự khác biệt nhẹ giữa các khu vực, tuy nhiên mức độ ảnh hưởng không lớn bằng các biến như \textit{smoker}, \textit{age} hoặc \textit{bmi}.
+\end{itemize}
+
+Các thuật toán học máy, đặc biệt là \textit{Linear Regression}, không thể làm việc trực tiếp với dữ liệu dạng phân loại (\textit{categorical data}) như:
+\begin{itemize}
+    \item \texttt{sex} = \textit{male/female}
+    \item \texttt{smoker} = \textit{yes/no}
+    \item \texttt{region} = \textit{northeast/northwest/southeast/southwest}
+\end{itemize}
+
+Do đó, các biến này cần được mã hóa sang dạng số trước khi đưa vào mô hình.
+
+%---------------------------------------------------------
+
+\subsection{Mô hình workflow Linear Regression trong KNIME}
+
+\subsubsection{Bước 1: CSV Reader – Đọc dữ liệu}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/csv_reader.png}
+    \caption{Node CSV Reader trong workflow Linear Regression}
+    \label{fig:csv_reader}
+\end{figure}
+
+\begin{itemize}
+    \item Đọc file \texttt{insurance.csv} vào KNIME.
+    \item Tạo bảng dữ liệu gốc với các cột: \textit{age, sex, bmi, children, smoker, region, charges}.
+    \item Không thay đổi cấu trúc dữ liệu, chỉ chuyển dữ liệu từ file vào KNIME để các node tiếp theo sử dụng.
+\end{itemize}
+
+\subsubsection{Bước 2: Column Filter – Lựa chọn đặc trưng}
+
+\begin{itemize}
+    \item Loại bỏ các cột không cần thiết (nếu có).
+    \item Giữ lại các cột làm đặc trưng đầu vào và biến mục tiêu \textit{charges}.
+    \item Giúp workflow gọn gàng và tránh đưa nhầm các cột không phù hợp vào mô hình.
+\end{itemize}
+
+\subsubsection{Bước 3: One to Many – Mã hóa biến phân loại}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/workflow_step3_onehot.png}
+    \caption{Node One to Many mã hóa các biến phân loại}
+    \label{fig:one_to_many}
+\end{figure}
+
+\begin{itemize}
+    \item Chuyển các biến phân loại (\textit{sex, smoker, region}) thành các cột nhị phân bằng kỹ thuật \textit{one-hot encoding}.
+    \item Kết quả là toàn bộ dữ liệu đầu vào cho mô hình đều ở dạng số, phù hợp với Linear Regression.
+\end{itemize}
+
+\subsubsection{Bước 4: Partitioning – Chia tập train/test}
+
+\begin{itemize}
+    \item Chia dữ liệu sau khi mã hóa thành hai tập:
+    \begin{itemize}
+        \item Train: $70\%$ ($936/1338$ dòng).
+        \item Test: $30\%$ ($402/1338$ dòng).
+    \end{itemize}
+    \item Đảm bảo quá trình huấn luyện và đánh giá mô hình được thực hiện độc lập, tránh rò rỉ dữ liệu (\textit{data leakage}).
+\end{itemize}
+
+\subsubsection{Bước 5: Normalizer (Train) – Chuẩn hóa trên tập huấn luyện}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/workflow_step5_normalizer_train.png}
+    \caption{Chuẩn hóa dữ liệu trên tập huấn luyện}
+    \label{fig:normalizer_train}
+\end{figure}
+
+\begin{itemize}
+    \item Chuẩn hóa các biến số (\textit{age, bmi, children}) theo Z-score.
+    \item Không chuẩn hóa biến mục tiêu \textit{charges}.
+    \item Xuất ra đồng thời dữ liệu train đã chuẩn hóa và mô hình chuẩn hóa.
+\end{itemize}
+
+\subsubsection{Bước 6: Normalizer (Apply) – Áp dụng chuẩn hóa cho tập test}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/workflow_step6_normalizer_apply.png}
+    \caption{Áp dụng mô hình chuẩn hóa cho tập test}
+    \label{fig:normalizer_apply}
+\end{figure}
+
+\begin{itemize}
+    \item Áp dụng mô hình chuẩn hóa học từ train cho dữ liệu test.
+    \item Đảm bảo test được scale bằng đúng tham số của train, tránh leakage.
+\end{itemize}
+
+\subsubsection{Bước 7: Linear Regression Learner – Huấn luyện mô hình}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/workflow_step7_lr_learner.png}
+    \caption{Node Linear Regression Learner}
+    \label{fig:lr_learner}
+\end{figure}
+
+\begin{itemize}
+    \item Huấn luyện mô hình Linear Regression với biến mục tiêu là \textit{charges}.
+    \item Ước lượng các hệ số hồi quy và xuất mô hình.
+\end{itemize}
+
+\subsubsection{Bước 8: Regression Predictor – Dự đoán trên tập test}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/workflow_step8_predictor.png}
+    \caption{Node Regression Predictor}
+    \label{fig:regression_predictor}
+\end{figure}
+
+\begin{itemize}
+    \item Sinh thêm cột \texttt{Prediction(charges)} chứa giá trị dự đoán cho từng bản ghi test.
+\end{itemize}
+
+\subsubsection{Bước 9: Numeric Scorer – Đánh giá mô hình}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/workflow_step9_numeric_scorer.png}
+    \caption{Kết quả đánh giá mô hình Linear Regression}
+    \label{fig:numeric_scorer}
+\end{figure}
+
+Kết quả từ \textit{Numeric Scorer} cho thấy mô hình Linear Regression đạt mức dự đoán khá tốt:
+\begin{itemize}
+    \item $R^2 \approx 0.758$: mô hình giải thích được khoảng $75.8\%$ biến thiên của \textit{charges}.
+    \item $MAE \approx 4451.71$: sai số tuyệt đối trung bình ở mức khoảng $4.45$ nghìn.
+    \item $RMSE \approx 6361.86$: cho thấy tồn tại một số trường hợp dự đoán sai lớn.
+\end{itemize}
+
+\textbf{Dấu hiệu thiên lệch dự đoán:}
+\begin{itemize}
+    \item Mean signed difference $= -447.16$: mô hình có xu hướng dự đoán thấp hơn thực tế.
+    \item $MAPE \approx 43.36\%$: khá cao do ảnh hưởng của các giá trị \textit{charges} nhỏ trong mẫu.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/predicted_vs_actual.png}
+    \caption{So sánh giá trị dự đoán và giá trị thực của \textit{charges}}
+    \label{fig:predicted_vs_actual}
+\end{figure}
+
+
+% -----------------------------------------------------------------
+
+
+\chapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+\startcontents[chapters]
+Kết luận (những kết quả chung đạt được, những kiến thức đã tiếp nhận được,....) và hướng phát triển.
+\section{Kết luận}
+\section{Hướng phát triển}
