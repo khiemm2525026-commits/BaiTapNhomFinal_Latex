@@ -1,7 +1,16 @@
 \chapter*{Lời cám ơn}
+Lời đầu tiên, nhóm thực hiện xin gửi lời cảm ơn chân thành và sâu sắc nhất đến thầy \textbf{[Nguyễn Thanh Hải]}, người đã tận tình hướng dẫn, định hướng và đưa ra những lời khuyên quý báu giúp nhóm hoàn thành bài tập này.
+
+Chúng tôi cũng xin gửi lời cảm ơn đến Ban Giám hiệu và các thầy cô trường \textbf{[Công nghệ thông tin và Truyền thông]}, \textbf{[Đại học Cần Thơ]} đã tạo điều kiện môi trường học tập tốt nhất, cung cấp những kiến thức nền tảng vững chắc để chúng tôi có thể áp dụng vào thực tiễn nghiên cứu.
+
+Cuối cùng, xin cảm ơn gia đình và bạn bè đã luôn động viên, hỗ trợ tinh thần cho nhóm trong suốt quá trình thực hiện đồ án. Mặc dù đã rất cố gắng, nhưng do giới hạn về thời gian và kiến thức, bài báo cáo khó tránh khỏi những thiếu sót. Chúng tôi rất mong nhận được sự đóng góp ý kiến từ quý Thầy/Cô và các bạn để đề tài được hoàn thiện hơn.
+
+Xin chân thành cảm ơn!
 
 \chapter*{Lời cam đoan}
-Nghiên cứu của nhóm là trung thực, không sao chép từ các nghiên cứu khác. Có trích dẫn đầy đủ các tài liệu có tham khảo....
+Chúng tôi xin cam đoan đây là nghiên cứu của chính nhóm thực hiện dưới sự hướng dẫn của giảng viên \textbf{[Nguyễn Thanh Hải]}.
+
+Các số liệu, kết quả nêu trong báo cáo là trung thực và chưa từng được công bố trong bất kỳ công trình nào khác. Mọi thông tin trích dẫn, tham khảo từ các tài liệu, sách báo, bài nghiên cứu khoa học và các nguồn dữ liệu trên Internet đều được ghi rõ nguồn gốc và tuân thủ đúng quy định về trích dẫn khoa học.
 
 \chapter*{Danh mục bảng viết tắt}
 \begin{table}[ht!]
@@ -9,13 +18,20 @@ Nghiên cứu của nhóm là trung thực, không sao chép từ các nghiên c
 \caption{Danh mục các ký hiệu viết tắt}\label{tab:data}
 \begin{tabular}{|l|l|l|}
 \hline
-\large \textbf{Chữ viết tắt} & \large \textbf{Chữ đầy đủ }&  \large \textbf{Diễn giải} \\ \hline
-CNN & Convolutional Neural Network & Mạng nơ-ron tích chập  \\ \hline
+\large \textbf{Chữ viết tắt} & \large \textbf{Chữ đầy đủ} & \large \textbf{Diễn giải} \\ \hline
+CNN & Convolutional Neural Network & Mạng nơ-ron tích chập \\ \hline
+EHR & Electronic Health Records & Hồ sơ sức khỏe điện tử \\ \hline
+DT & Decision Tree & Cây quyết định \\ \hline
+ML & Machine Learning & Học máy \\ \hline
+EDA & Exploratory Data Analysis & Phân tích khám phá dữ liệu \\ \hline
 \end{tabular}
 \end{table}
 
 
 \chapter*{Tóm tắt}
-Abstract viết các nội dung ngắn gọn trình bày: 1-2 câu mô tả ngữ cảnh vấn đề, tại sao nên làm nghiên cứu này; 2-3 câu mô tả pp đề xuất, các thành phần trong pp đề xuất; 1-2 câu mô tả dữ liệu dùng để đánh giá và kết quả đạt được (vd: https://www.sciencedirect.com/science/article/pii/S0952197623000593)
+Trong bối cảnh quá tải tại các cơ sở y tế, việc phân loại chính xác bệnh nhân cần nhập viện (In-care) hay điều trị ngoại trú (Out-care) dựa trên các chỉ số xét nghiệm là yếu tố then chốt giúp tối ưu hóa nguồn lực và chi phí điều trị. Nghiên cứu này tập trung giải quyết bài toán hỗ trợ ra quyết định lâm sàng thông qua việc áp dụng các kỹ thuật khai phá dữ liệu trên nền tảng KNIME.
 
+Phương pháp đề xuất bao gồm việc xây dựng một quy trình khép kín (pipeline) từ tiền xử lý dữ liệu, trích xuất đặc trưng đến huấn luyện mô hình. Cụ thể, nhóm nghiên cứu sử dụng thuật toán Cây quyết định (Decision Tree) để phân lớp bệnh nhân và thuật toán K-Means để gom nhóm (Clustering) rủi ro sức khỏe dựa trên các chỉ số huyết học như Bạch cầu, Tiểu cầu và Huyết sắc tố.
+
+Thực nghiệm được tiến hành trên bộ dữ liệu gồm 4412 hồ sơ bệnh án điện tử thực tế. Kết quả cho thấy mô hình Cây quyết định đạt độ chính xác khoảng 74\%, đồng thời trích xuất được các quy tắc y khoa (If-Then rules) minh bạch, giúp các bác sĩ dễ dàng giải thích và tin tưởng vào kết quả dự báo.
 
